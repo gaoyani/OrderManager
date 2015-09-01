@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="#00000000"
+    android:minHeight="70dp" >
+
+    <TextView
+        android:id="@+id/tv_dishes_name"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:textColor="#ff000000"
+        android:textSize="@dimen/dishes_name_text_size" />
+    
+    <ImageView
+        android:id="@+id/iv_sold_out"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/sold_out"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_dishes_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/tv_dishes_name"
+        android:gravity="center"
+        android:textColor="#ffff0000"
+        android:textSize="@dimen/item_price_text_size" />
+    
+    <ImageView
+        android:id="@+id/iv_split"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/list_item_split" />
+
+</RelativeLayout>

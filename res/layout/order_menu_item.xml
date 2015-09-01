@@ -1,0 +1,96 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:descendantFocusability="blocksDescendants"
+    android:minHeight="70dp" >
+
+    <LinearLayout
+        android:id="@+id/layout_order_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="2dp" >
+
+        <TextView
+            android:id="@+id/tv_order_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/order_id"
+            android:textColor="#ff7f7f7f"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_table_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/layout_order_id"
+        android:textColor="#ff000000"
+        android:textSize="@dimen/main_menu_text_size" />
+    
+    <ImageView
+        android:id="@+id/iv_waimai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="50dp"
+        android:layout_toRightOf="@+id/tv_table_name"
+        android:src="@drawable/waimai" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/tv_status"
+        android:background="@drawable/button_delete_order_selector"
+        android:clickable="true"
+        android:focusable="false"
+        android:gravity="center"
+        android:textColor="#ffffffff"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="16dp"
+        android:ellipsize="end"
+        android:gravity="center|top"
+        android:lines="1"
+        android:text="@string/order_accept"
+        android:textColor="@color/confirm_order_color"
+        android:textSize="@dimen/order_status_text_size" />
+
+    <Button
+        android:id="@+id/btn_accept"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_logout_selector"
+        android:clickable="true"
+        android:focusable="false"
+        android:gravity="center"
+        android:text="@string/accept"
+        android:textColor="#ffffffff"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/iv_split"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/list_item_split" />
+    
+
+</RelativeLayout>

@@ -1,0 +1,119 @@
+<com.huiwei.ordermanager.view.OrderUpdateView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="#ffffffff"
+    android:minWidth="300dp"
+    android:orientation="vertical"
+    android:paddingBottom="10dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/order_table_id"
+            android:textColor="#ff000000"
+            android:textSize="16sp" />
+
+        <Spinner
+            android:id="@+id/spinner_tables"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_title" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/spinner_tables"
+        android:layout_alignRight="@+id/spinner_tables"
+        android:layout_below="@+id/spinner_tables"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/cb_add_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/insert_order"
+            android:textColor="#ff000000" />
+
+        <CheckBox
+            android:id="@+id/cb_vip_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/vip_order"
+            android:textColor="#ff000000" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="2dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/order_notes"
+            android:textColor="#ff000000"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_notes"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="2dp"
+            android:gravity="top|left"
+            android:scrollHorizontally="true"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cb_add_order"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_ok"
+            style="@style/button_style"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="@string/ok"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="@style/button_style"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</com.huiwei.ordermanager.view.OrderUpdateView>

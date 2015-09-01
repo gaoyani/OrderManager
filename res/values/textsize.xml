@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="title_font_size">20sp</dimen>
+    <dimen name="main_menu_text_size">18sp</dimen>
+    <dimen name="Item_title_text_size">15sp</dimen>
+    <dimen name="item_content_text_size">13sp</dimen>
+    
+    <dimen name="login_title_size">16sp</dimen>
+    <dimen name="login_value_size">16sp</dimen>
+    
+    <dimen name="item_price_text_size">16sp</dimen>
+    <dimen name="prefer_text_size">18sp</dimen>
+    
+    <dimen name="order_status_text_size">16sp</dimen>
+    
+    <dimen name="category_text_size">17sp</dimen>
+    <dimen name="dishes_name_text_size">18sp</dimen>
+    
+</resources>

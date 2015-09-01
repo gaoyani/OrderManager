@@ -1,0 +1,118 @@
+<com.huiwei.ordermanager.view.InputDishesView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="#ffffffff"
+    android:minWidth="300dp"
+    android:paddingBottom="10dp" >
+    
+<!--     <ListView -->
+<!--         android:id="@+id/lv_dishes" -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_marginLeft="20dp" -->
+<!--         android:layout_marginRight="20dp" -->
+<!--         android:layout_marginTop="10dp" -->
+<!--         android:listSelector="#00000000"/> -->
+
+    <RelativeLayout
+        android:id="@+id/layout_input"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp" >
+        
+        <TextView
+            android:id="@+id/tv_dishes_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/dishes_name"
+            android:textColor="#ff000000"
+            android:textSize="18sp" />
+        
+        <EditText
+            android:id="@+id/et_dishes_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_dishes_name"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tv_dishes_name"
+            android:gravity="left|center_vertical"
+            android:singleLine="true" />
+        
+        <TextView
+            android:id="@+id/tv_dishes_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_dishes_name"
+            android:layout_marginTop="30dp"
+            android:text="@string/price"
+            android:textColor="#ff000000"
+            android:textSize="18sp" />
+        
+        <EditText
+            android:id="@+id/et_dishes_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_dishes_price"
+            android:layout_marginLeft="5dp"
+            android:layout_toLeftOf="@+id/tv_yuan"
+            android:layout_toRightOf="@+id/tv_dishes_price"
+            android:gravity="left|center_vertical"
+            android:singleLine="true" />
+        
+        <TextView
+            android:id="@+id/tv_yuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_dishes_name"
+            android:layout_alignBaseline="@+id/tv_dishes_price"
+            android:layout_alignParentRight="true"
+            android:text="@string/rmb"
+            android:textColor="#ff000000"
+            android:textSize="18sp" />
+        
+<!--         <Button -->
+<!--             android:id="@+id/btn_input_add" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_alignBaseline="@+id/tv_dishes_price" -->
+<!--             android:layout_alignParentRight="true" -->
+<!--             android:layout_marginLeft="10dp" -->
+<!--             android:textSize="18sp" /> -->
+        
+    </RelativeLayout>
+    
+    <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_below="@+id/layout_input"
+       android:layout_marginLeft="20dp"
+       android:layout_marginRight="20dp"
+       android:layout_marginTop="10dp"
+       android:orientation="horizontal" >
+
+    <Button
+        android:id="@+id/btn_ok"
+        style="@style/button_style"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:text="@string/ok"
+        android:textSize="18sp" />
+    
+    <Button
+        android:id="@+id/btn_cancel"
+        style="@style/button_style"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+        android:text="@string/cancel"
+        android:textSize="18sp" />
+        
+    </LinearLayout>
+
+</com.huiwei.ordermanager.view.InputDishesView>

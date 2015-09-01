@@ -1,0 +1,129 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@drawable/background">
+
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/title_bg" >
+
+        <ImageView
+            android:id="@+id/iv_menu"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/btn_more_menu" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/main_order"
+            android:textColor="#ffffffff"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+        
+        <ImageView
+            android:id="@+id/iv_plus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_plus" />
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:id="@+id/layout_group"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/layout_title"
+        android:background="#00000000" >
+        
+        <RelativeLayout
+            android:id="@+id/layout_unconfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/category_background" >
+
+            <TextView
+                android:id="@+id/tv_unconfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/order_tab_new"
+                android:textColor="#ff000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_new_num"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@+id/tv_unconfirm"
+                android:background="@drawable/num_bg"
+                android:gravity="center"
+                android:textColor="#ffffffff"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+        
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/category_background"
+            android:gravity="center"
+            android:text="@string/order_tab_confirm"
+            android:textColor="#ff000000"
+            android:textSize="18sp" />
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/layout_group_bl"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@+id/layout_group" >
+        
+        <ImageView
+            android:id="@+id/iv_unconfirm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/selected" />
+        
+        <ImageView
+            android:id="@+id/iv_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/order_group_bl_color" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_order_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_group_bl"
+        android:cacheColorHint="#00000000"
+        android:scrollbarStyle="insideOverlay" />
+    
+    <include
+        android:id="@+id/loading_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        layout="@layout/loading_progress_view"/>
+
+</RelativeLayout>

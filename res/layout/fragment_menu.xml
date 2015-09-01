@@ -1,0 +1,163 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background" >
+    
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/title_bg" >
+
+        <ImageView
+            android:id="@+id/iv_return"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/btn_return" />
+
+        <ImageView
+            android:id="@+id/iv_menu"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/btn_more_menu" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/all_dishes"
+            android:textColor="#ffffffff"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+        
+        <ImageView
+            android:id="@+id/iv_input_dishes"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_input_dishes" />
+
+        <RelativeLayout
+            android:id="@+id/layout_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="#ffffffff" 
+            android:visibility="gone" >
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@+id/btn_cancle_search"
+                android:drawableLeft="@drawable/search_icon"
+                android:drawablePadding="5dp"
+                android:ems="10"
+                android:hint="Search"
+                android:singleLine="true" />
+            
+            <Button
+                android:id="@+id/btn_clean_search"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignRight="@+id/et_search"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/btn_input_clear" 
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_cancle_search"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/button_logout_selector"
+                android:text="@string/cancel"
+                android:textColor="#ffffffff"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+    
+    <ImageButton
+        android:id="@+id/btn_search"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/layout_title"
+        android:background="@color/category_background"
+        android:src="@drawable/search_icon" />
+    
+    <ListView
+        android:id="@+id/lv_catagery"
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/btn_search"
+        android:background="@color/category_background"
+        android:cacheColorHint="#00000000"
+        android:listSelector="#00000000" >
+    </ListView>
+    
+    <ListView
+        android:id="@+id/lv_dishes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_title"
+        android:layout_toRightOf="@+id/lv_catagery"
+        android:cacheColorHint="#00000000"
+        android:divider="@null">
+
+    </ListView>
+
+    <RelativeLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/order_confirm_bg"
+        android:padding="5dp" >
+        
+        <TextView
+            android:id="@+id/tv_dishes_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_price"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:textColor="#ffffffff"
+            android:textSize="18sp" />
+        
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_dishes_num"
+            android:textColor="#ffff0000"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+    
+    <include
+        android:id="@+id/loading_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        layout="@layout/loading_progress_view"/>
+
+</RelativeLayout>

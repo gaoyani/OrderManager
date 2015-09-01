@@ -1,0 +1,33 @@
+<com.huiwei.ordermanager.view.NumberView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <ImageButton
+        android:id="@+id/ib_subtract"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/btn_subtract" />
+
+    <EditText
+        android:id="@+id/et_num"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ib_subtract"
+        android:layout_alignTop="@+id/ib_subtract"
+        android:layout_toRightOf="@+id/ib_subtract"
+        android:background="@drawable/text_bg"
+        android:gravity="center"
+        android:inputType="number"
+        android:text="0"
+        android:textSize="16sp" >
+
+    </EditText>
+
+    <ImageButton
+        android:id="@+id/ib_add"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/et_num"
+        android:background="@drawable/btn_add" />
+
+</com.huiwei.ordermanager.view.NumberView>

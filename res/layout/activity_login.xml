@@ -1,0 +1,155 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical" >
+        
+    <ImageView
+        android:id="@+id/textView1"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/login_icon"
+        android:scaleType="centerInside" />
+
+    <RelativeLayout
+        android:id="@+id/layout_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="-20dp"
+        android:background="@drawable/text_bg" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="@string/login_user_name"
+            android:textColor="@color/login_text_color"
+            android:textSize="@dimen/login_title_size"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView1"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/textView1"
+            android:background="@null"
+            android:ems="10"
+            android:singleLine="true"
+            android:textSize="@dimen/login_value_size" >
+
+            <requestFocus />
+        </EditText>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_password"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_alignLeft="@+id/layout_user_name"
+        android:layout_alignRight="@+id/layout_user_name"
+        android:layout_below="@+id/layout_user_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-2dp"
+        android:background="@drawable/text_bg" >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="@string/login_password"
+            android:textColor="@color/login_text_color"
+            android:textSize="@dimen/login_title_size"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textView2"
+            android:background="@null"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textSize="@dimen/login_value_size" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_server"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_alignLeft="@+id/layout_user_name"
+        android:layout_alignRight="@+id/layout_user_name"
+        android:layout_below="@+id/layout_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-2dp"
+        android:background="@drawable/text_bg" >
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="@string/login_server"
+            android:textColor="@color/login_text_color"
+            android:textSize="@dimen/login_title_size"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_server_ip"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textView3"
+            android:background="@null"
+            android:ems="10"
+            android:singleLine="true"
+            android:text="192.168.2.3:8080"
+            android:textSize="@dimen/login_value_size" />
+
+    </RelativeLayout>
+    
+    <CheckBox
+        android:id="@+id/cb_keep_screen_on"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/layout_server"
+        android:layout_below="@+id/layout_server"
+        android:text="运行时屏幕禁止休眠"
+        android:textColor="#ff000000"
+        android:checked="true" />
+
+    <Button
+        android:id="@+id/ib_login"
+        style="@style/button_style"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/layout_server"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/login"
+        android:textSize="18sp" />
+    
+    <ProgressBar
+        android:id="@+id/pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

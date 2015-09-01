@@ -1,0 +1,147 @@
+<com.huiwei.ordermanager.view.PreferChooseView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="#ffffffff"
+    android:minWidth="300dp"
+    android:paddingBottom="10dp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_ck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp" >
+
+        <CheckBox
+            android:id="@+id/checkBox1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="CheckBox"
+            android:textColor="#ff000000"
+            android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="CheckBox"
+            android:textColor="#ff000000"
+            android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/checkBox1"
+            android:layout_below="@+id/checkBox1"
+            android:text="CheckBox"
+            android:textColor="#ff000000"
+            android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/checkBox4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/checkBox2"
+            android:layout_below="@+id/checkBox2"
+            android:text="CheckBox"
+            android:textColor="#ff000000"
+            android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/checkBox5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/checkBox1"
+            android:layout_below="@+id/checkBox3"
+            android:text="CheckBox"
+            android:textColor="#ff000000"
+            android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/checkBox6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/checkBox2"
+            android:layout_below="@+id/checkBox4"
+            android:text="CheckBox"
+            android:textColor="#ff000000"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_other"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_ck"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp" >
+
+        <TextView
+            android:id="@+id/tv_other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/others"
+            android:textColor="#ff000000"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_other"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tv_other"
+            android:gravity="top|left"
+            android:scrollbars="vertical"
+            android:text="" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/layout_other"
+        android:layout_alignRight="@+id/layout_other"
+        android:layout_below="@+id/layout_other"
+        android:layout_marginTop="20dp"
+        android:textColor="#ff000000"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_history"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_ok"
+            style="@style/button_style"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="@string/ok"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="@style/button_style"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</com.huiwei.ordermanager.view.PreferChooseView>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+    <color name="selected">#fff7a300</color>
+    <color name="title_text_color">#ffffffff</color>
+    <color name="title_bg_color">#ffff6000</color>
+    <color name="login_text_color">#ff333333</color>
+    <color name="category_background">#ffe2deda</color>
+    <color name="order_confirm_up">#ffffc000</color>
+    <color name="order_confirm_down">#ffff853b</color>
+    <color name="prefer_text_color">#ffd44422</color>
+    <color name="new_order_color">#ffff0000</color>
+    <color name="confirm_order_color">#ff7f7f7f</color>
+    <color name="order_group_bl_color">#ff8a8a8a</color>
+    
+    <color name="calling_color">#fff1dad7</color>
+    <color name="dishes_special_color">#fff5c5ad</color>
+    
+</resources>

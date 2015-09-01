@@ -1,0 +1,103 @@
+<resources>
+
+    <string name="app_name">无线点餐</string>
+    <string name="app_description">提供快捷、方便的点餐服务</string>
+	<string name="login_user_name">用户名：</string> 
+  	<string name="login_password">密&#160;&#160;&#160;&#160;码：</string> 
+  	<string name="login_server">服务器：</string> 
+  	<string name="login">登录</string>
+  	<string name="logout">注销</string>
+  	<string name="yuan">￥</string>
+  	<string name="rmb">元</string>
+  	<string name="dishes_name">菜名</string>
+  	<string name="price">价格</string> 
+  	<string name="others">其他</string> 
+  	<string name="waitress">服务员：</string> 
+  	
+  	<string name="ok">确定</string> 
+  	<string name="cancel">取消</string> 
+  	<string name="yes">是</string> 
+  	<string name="no">否</string> 
+  	
+  	<string name="all_dishes">所有美味</string> 
+  	<string name="all">全部</string> 
+  	<string name="main_menu">菜单</string> 
+  	<string name="main_order">订单</string> 
+  	<string name="main_more_info">更多</string> 
+  	
+  	<string name="order_id">订单号：</string> 
+  	<string name="order_table_id">桌号：</string> 
+  	<string name="order_status">状态</string> 
+  	<string name="order_notes">订单备注：</string>
+  	
+  	<string name="take_out_order_contact_name">联系人&#160;&#160;&#160;&#160;：</string>
+  	<string name="take_out_order_contact_number">联系电话：</string>
+  	<string name="take_out_order_contact_address">联系地址：</string>
+  	<string name="take_out_order_send_type">配送方式：</string>
+  	<string name="take_out_order_send_time">配送时间：</string>
+  	
+  	<string name="fen">份菜</string> 
+  	<string name="order_food">点餐</string> 
+  	<string name="accept">接单</string> 
+  	<string name="confirm">处理</string> 
+  	<string name="success">成功</string> 
+  	<string name="failed">失败，请重试</string> 
+  	<string name="order_completed">失败，订单已完成</string>
+  	<string name="vip_order">会员订单</string>
+  	<string name="insert_order">加餐订单</string>
+  	
+  	<string name="login_success">登录成功</string> 
+  	<string name="logout_success">注销成功</string> 
+  	<string name="connect_server_failed">连接服务器失败！</string> 
+  	<string name="login_logined">该用户名已在其他客户端登录！</string> 
+  	<string name="login_failed">用户名或密码不正确！</string> 
+  	<string name="logout_failed">注销失败，请检查网络！</string> 
+  	<string name="user_name_empty">用户名不能为空！</string> 
+  	<string name="password_empty">密码不能为空！</string> 
+  	<string name="no_network">无法连接到网络，请检查网络配置</string> 
+  	<string name="login_exception_fail">登陆失败，请确认已连接点餐wifi或重启app后再试</string> 
+  	
+  	<string name="calling_accept">我知道了</string> 
+  	
+  	<string name="cancle_add_title">是否取消所有点餐并返回？</string> 
+  	<string name="cancle_add_ok">取消并返回</string> 
+  	<string name="cancle_add_no">继续选菜</string> 
+  	
+  	<string name="submit_order">提交订单</string> 
+  	<string name="submit_order_title">是否提交对订单的修改？</string> 
+  	<string name="submit_order_ok">提交</string> 
+  	<string name="submit_order_no">取消</string> 
+  	<string name="submit_success">提交成功</string> 
+  	<string name="submit_failed">提交失败，请重试</string> 
+  	
+  	<string name="order_tab_new">待处理</string> 
+  	<string name="order_tab_confirm">已确定订单</string> 
+  	<string name="order_accept">已接单</string> 
+  	<string name="order_confirm">已处理</string> 
+  	<string name="order_table_all_used">目前没有空闲餐桌</string> 
+  	<string name="order_add_exist">订单添加失败，该桌号有未完成订单</string> 
+  	<string name="order_confirmed">订单已处理</string> 
+  	<string name="order_update_fail">订单更新失败</string> 
+  	<string name="order_has_sold_out">订单中包含已售罄的菜品，请修改</string> 
+  	<string name="order_empty">订单为空，请添加菜品</string>
+  	<string name="order_delete_title">撤销订单</string> 
+  	<string name="order_delete_message">确定要撤销</string> 
+  	<string name="order_delete_message_end">订单吗？</string>
+  	<string name="order_delete_success">删除订单成功</string> 
+  	<string name="order_delete_fail">删除订单失败，请重试</string> 
+  	
+  	<string name="prefer_history">口味偏好历史：</string> 
+  	
+  	<string name="input_dishes_name_empty">菜名不能为空</string> 
+  	<string name="input_dishes_price_empty">菜品价格不能为空</string> 
+  	<string name="input_dishes_price_error">菜品价格格式错误</string> 
+  	
+  	<string name="input_ordered_table_id">请选择需要点餐的餐桌</string>
+  	<string name="update_data_failed">同步数据失败，请点击重试！</string>
+  	
+  	<string name="delete_order_dishes">是否删除菜品“</string>
+  	<string name="delete_order_dishes_end">”？</string>
+  	
+  	<string name="exit_app">再按一次返回键退出程序</string> 
+    
+</resources>

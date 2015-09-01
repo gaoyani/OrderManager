@@ -1,0 +1,98 @@
+<resources>
+
+    <string name="app_name">無線點餐</string>
+    <string name="app_description">提供快捷、方便的點餐服務</string>
+	<string name="login_user_name">用戶名：</string> 
+  	<string name="login_password">密&#160;&#160;&#160;&#160;碼：</string> 
+  	<string name="login_server">服務器：</string> 
+  	<string name="login">登錄</string>
+  	<string name="logout">註銷</string>
+  	<string name="yuan">￥</string>
+  	<string name="rmb">元</string>
+  	<string name="dishes_name">菜名</string>
+  	<string name="price">價格</string> 
+  	<string name="others">其他</string> 
+  	<string name="waitress">服務員：</string> 
+  	
+  	<string name="ok">確定</string> 
+  	<string name="cancel">取消</string> 
+  	
+  	<string name="all_dishes">所有美味</string> 
+  	<string name="all">全部</string> 
+  	<string name="main_menu">菜單</string> 
+  	<string name="main_order">訂單</string> 
+  	<string name="main_more_info">更多</string> 
+  	
+  	<string name="order_id">訂單號：</string> 
+  	<string name="order_table_id">桌號：</string> 
+  	<string name="order_status">狀態</string> 
+  	<string name="order_notes">訂單備註：</string>
+  	
+  	<string name="take_out_order_contact_name">聯繫人&#160;&#160;&#160;&#160;：</string>
+  	<string name="take_out_order_contact_number">聯繫電話：</string>
+  	<string name="take_out_order_contact_address">聯繫地址：</string>
+  	<string name="take_out_order_send_type">配送方式：</string>
+  	<string name="take_out_order_send_time">配送時間：</string>
+  	
+  	<string name="fen">份菜</string> 
+  	<string name="order_food">點餐</string> 
+  	<string name="accept">接單</string> 
+  	<string name="confirm">處理</string> 
+  	<string name="success">成功</string> 
+  	<string name="failed">失敗，請重試</string> 
+  	<string name="order_completed">失敗，訂單已完成</string>
+  	<string name="vip_order">會員訂單</string>
+  	<string name="insert_order">加餐訂單</string>
+  	
+  	<string name="login_success">登錄成功</string> 
+  	<string name="logout_success">註銷成功</string> 
+  	<string name="connect_server_failed">連接服務器失敗！</string> 
+  	<string name="login_logined">該用戶名已在其他客戶端登錄！</string> 
+  	<string name="login_failed">用戶名或密碼不正確！</string> 
+  	<string name="logout_failed">註銷失敗，請檢查網絡！</string> 
+  	<string name="user_name_empty">用戶名不能為空！</string> 
+  	<string name="password_empty">密碼不能為空！</string> 
+  	<string name="no_network">無法連接到網絡，請檢查網絡配置</string> 
+  	<string name="login_exception_fail">登錄失敗，請重啟app后再試</string> 
+  	
+  	<string name="calling_accept">我知道了</string> 
+  	
+  	<string name="cancle_add_title">是否取消所有點餐並返回</string> 
+  	<string name="cancle_add_ok">取消並返回</string> 
+  	<string name="cancle_add_no">繼續選菜</string> 
+  	
+  	<string name="submit_order">提交訂單</string> 
+  	<string name="submit_order_title">是否提交對訂單的修改？</string> 
+  	<string name="submit_order_ok">提交</string> 
+  	<string name="submit_order_no">取消</string> 
+  	<string name="submit_success">提交成功</string> 
+  	<string name="submit_failed">提交失敗，請重試</string> 
+  	
+  	<string name="order_tab_new">待處理</string> 
+  	<string name="order_tab_confirm">已確定訂單</string> 
+  	<string name="order_accept">已接單</string> 
+  	<string name="order_confirm">已處理</string> 
+  	<string name="order_table_all_used">目前沒有空閒餐桌</string>
+  	<string name="order_add_exist">訂單添加失敗，該桌號有未完成訂單</string> 
+  	<string name="order_empty">訂單為空，請添加菜品</string>
+  	<string name="order_confirmed">訂單已處理</string> 
+  	<string name="order_update_fail">訂單更新失敗</string> 
+  	<string name="order_has_sold_out">訂單中包含已售罄的菜品，請修改</string> 
+  	<string name="order_delete_title">撤銷訂單</string> 
+  	<string name="order_delete_message">確定要撤銷？</string> 
+  	<string name="order_delete_message_end">訂單嗎？</string>
+  	<string name="order_delete_success">撤銷訂單成功</string> 
+  	<string name="order_delete_fail">撤銷訂單失敗，請重試</string> 
+  	
+  	<string name="prefer_history">口味偏好歷史：</string> 
+  	
+  	<string name="input_dishes_name_empty">菜名不能為空</string> 
+  	<string name="input_dishes_price_empty">菜品價格不能為空</string> 
+  	<string name="input_dishes_price_error">菜品價格格式錯誤</string> 
+  	
+  	<string name="input_ordered_table_id">請選擇需要點餐的餐桌</string>
+  	<string name="update_data_failed">同步數據失敗，請點擊重試！</string>
+  	
+  	<string name="exit_app">再按一次返回鍵退出程序</string> 
+    
+</resources>
