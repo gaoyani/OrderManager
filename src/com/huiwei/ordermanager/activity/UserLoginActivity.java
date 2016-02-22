@@ -62,6 +62,14 @@ public class UserLoginActivity extends Activity {
 				Toast.makeText(getApplicationContext(), 
 						getResources().getString(R.string.login_logined),
 						Toast.LENGTH_SHORT).show();
+			} else if (flag == CommonConstant.LOGIN_MAC_ERROR) {
+				Toast.makeText(getApplicationContext(), 
+						getResources().getString(R.string.login_mac_error),
+						Toast.LENGTH_SHORT).show();
+			} else if (flag == CommonConstant.LOGIN_USER_DISABLE) {
+				Toast.makeText(getApplicationContext(), 
+						getResources().getString(R.string.login_user_disable),
+						Toast.LENGTH_SHORT).show();
 			} else if (flag == CommonConstant.OTHER_FAIL) {
 				Toast.makeText(getApplicationContext(), 
 						getResources().getString(R.string.login_failed),

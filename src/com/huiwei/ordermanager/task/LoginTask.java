@@ -13,8 +13,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.huiwei.commonlib.CommonFunction;
 import com.huiwei.commonlib.MD5;
 import com.huiwei.commonlib.Preferences;
+import com.huiwei.ordermanager.activity.UserLoginActivity;
 import com.huiwei.ordermanager.common.SysApplication;
 import com.huiwei.ordermanager.constant.CommonConstant;
 
@@ -45,6 +47,7 @@ public class LoginTask extends AsyncTask<String, Void, Integer> {
 			JSONObject param = new JSONObject();
 			param.put("username", userName);
 			param.put("password", passWrod);
+			param.put("mac", CommonFunction.getLocalMacAddress(context));
 
 			JSONObject ep = new JSONObject();
 			ep.put("ver", "1.0");
@@ -56,10 +59,7 @@ public class LoginTask extends AsyncTask<String, Void, Integer> {
 
 			request.setEntity(new StringEntity(ep.toString()));
 			request.addHeader("Content-Type", "application/json"); 
-
-			HttpResponse httpResponse = new DefaultHttpClient()
-					.execute(request);
-
+			HttpResponse httpResponse = (new TaskHttpClient()).client.execute(request);
 			String retSrc = EntityUtils.toString(httpResponse.getEntity());
 			Log.d("login", retSrc);
 			JSONObject result = new JSONObject(retSrc);
@@ -68,15 +68,20 @@ public class LoginTask extends AsyncTask<String, Void, Integer> {
 			if (result.equals("") && result.length() == 0) {
 				flag = CommonConstant.OTHER_FAIL;
 			} else {
-				JSONObject jsonPhone = result.getJSONObject("params");
-				String resultFlag = jsonPhone.getString("loginflag");
+				JSONObject jsonObj = result.getJSONObject("params");
+				String resultFlag = jsonObj.getString("loginflag");
 				if ("success".equals(resultFlag)) {
 					Preferences.SetString(context, "session_id", sessionID);
 					Preferences.SetString(context, "user_id", 
-							String.valueOf(jsonPhone.getInt("waiterid")));
+							String.valueOf(jsonObj.getInt("waiterid")));
+					Preferences.SetBoolean(context, "enable_edit_confirm_order", jsonObj.getBoolean("confirm_edit"));
 					flag = CommonConstant.SUCCESS;
 				} else if ("logined".equals(resultFlag)){
 					flag = CommonConstant.LOGIN_FAIL_LOGINED;
+				} else if ("macerror".equals(resultFlag)){
+					flag = CommonConstant.LOGIN_MAC_ERROR;
+				} else if ("disable".equals(resultFlag)){
+					flag = CommonConstant.LOGIN_USER_DISABLE;
 				} else {
 					flag = CommonConstant.OTHER_FAIL;
 				}

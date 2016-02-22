@@ -1,10 +1,10 @@
 /*****************************************************
- * Copyright(c)2014-2015 北京汇为永兴科技有限公司
+ * Copyright(c)2014-2015 锟斤拷锟斤拷锟斤拷为锟斤拷锟剿科硷拷锟斤拷锟睫癸拷司
  * OrderDetailActivity.java
- * 创建人：高亚妮
- * 日     期：2014-6-21
- * 描     述：订单详情页面显示及订单修改文件
- * 版     本：v6.0
+ * 锟斤拷锟斤拷锟剿ｏ拷锟斤拷锟斤拷锟斤拷
+ * 锟斤拷     锟节ｏ拷2014-6-21
+ * 锟斤拷     锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷页锟斤拷锟斤拷示锟斤拷锟斤拷锟斤拷锟睫革拷锟侥硷拷
+ * 锟斤拷     锟斤拷锟斤拷v6.0
  *****************************************************/
 package com.huiwei.ordermanager.activity;
 
@@ -98,7 +98,11 @@ public class OrderDetailActivity extends BaseActivity implements
 			layoutBottm.setOnClickListener(this);
 		} else {
 			plus.setVisibility(View.GONE);
-			((TextView)findViewById(R.id.tv_upload)).setVisibility(View.GONE);
+			if (Preferences.GetBoolean(this, "enable_edit_confirm_order", true)) {
+				layoutBottm.setOnClickListener(this);
+			} else {
+				((TextView)findViewById(R.id.tv_upload)).setVisibility(View.GONE);
+			}
 		}
 
 		dishesNum = SysApplication.curOrderInfo.getDishesNum();
@@ -108,28 +112,23 @@ public class OrderDetailActivity extends BaseActivity implements
 		} else {
 			initListView();
 			pbView.hideView();
+			
+			Intent intent = new Intent();
+			intent.setClass(this, AllDishesActivity.class);
+			startActivity(intent);
 		}
 	}
 
 	@Override
 	protected void onResume() {
 		if (adapter != null) {
-			adapter.setData(SysApplication.curOrderInfo);;
+			adapter.setData(SysApplication.curOrderInfo, true);;
 			updatePrice();
 		}
 
 		super.onResume();
 	}
 
-	/*****************************************************
-	 * 函数名：initListView
-	 * 输     入：无
-	 * 输     出：无
-	 * 描     述：初始化订单详情列表及列表项点击处理
-	 * 调用接口：onCreateView
-	 * 创建人：高亚妮
-	 * 日     期：2014-6-21
-	 *****************************************************/
 	private void initListView() {
 		listView = (ListView) findViewById(R.id.lv_order_detail);
 		adapter = new OrderDetailItemAdapter(this, dishesChangeHandler);
@@ -169,7 +168,6 @@ public class OrderDetailActivity extends BaseActivity implements
 		});
 	}
 
-	//历史偏好获取消息处理
 	private Handler preferHistoryHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -179,23 +177,20 @@ public class OrderDetailActivity extends BaseActivity implements
 		}
 	};
 
-	//弹出偏好设置对话框
 	private void popPreferDialog(DishesInfo dishesInfo) {
 		preferView.setData(dishesInfo, preferHandler);
 		preferDialog.setView(preferView, 0, 0, 0, 0);
 		preferDialog.show();
 	}
 
-	//偏好设置消息处理
 	private Handler preferHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			preferDialog.dismiss();
-			adapter.setData(SysApplication.curOrderInfo);
+			adapter.setData(SysApplication.curOrderInfo, true);
 		}
 	};
 
-	//订单中菜品份数修改消息处理
 	private Handler dishesChangeHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -204,13 +199,14 @@ public class OrderDetailActivity extends BaseActivity implements
 			final OrderedDishesInfo info = SysApplication.curOrderInfo
 					.findOrderedDishes(dishesId);
 			isOrderChanged = true;
-			if (num == 1) {
-				info.orderNum = String
-						.valueOf(Integer.parseInt(info.orderNum) + 1);
-			} else if (num == -1) {
-				info.orderNum = String
-						.valueOf(Integer.parseInt(info.orderNum) - 1);
-			}
+			info.orderNum = String.valueOf(num);
+//			if (num == 1) {
+//				info.orderNum = String
+//						.valueOf(Integer.parseInt(info.orderNum) + 1);
+//			} else if (num == -1) {
+//				info.orderNum = String
+//						.valueOf(Integer.parseInt(info.orderNum) - 1);
+//			}
 			
 //			if (Integer.parseInt(info.orderNum) == 0) {
 //				AlertDialog.Builder builder = new AlertDialog.Builder(OrderDetailActivity.this);
@@ -242,14 +238,6 @@ public class OrderDetailActivity extends BaseActivity implements
 		};
 	};
 
-	/*****************************************************
-	 * 函数名：updatePrice
-	 * 输     入：无
-	 * 输     出：无
-	 * 描     述：更新总价格显示
-	 * 创建人：高亚妮
-	 * 日     期：2014-6-21
-	 *****************************************************/
 	private void updatePrice() {
 		float total = 0;
 		for (OrderedDishesInfo info : SysApplication.curOrderInfo.dishesInfo) {
@@ -268,23 +256,17 @@ public class OrderDetailActivity extends BaseActivity implements
 				+ String.valueOf(result));
 	}
 
-	/*****************************************************
-	 * 函数名：getOrderDetail
-	 * 输     入：无
-	 * 输     出：无
-	 * 描     述：开启线程获取订单详情
-	 * 创建人：高亚妮
-	 * 日     期：2014-6-21
-	 *****************************************************/
 	private void getOrderDetail() {
+//		DishesDetailsTask ddt = new DishesDetailsTask(this, handler, 
+//				SysApplication.curOrderInfo.content, SysApplication.curOrderInfo.isTakeOutOrder);
 		DishesDetailsTask ddt = new DishesDetailsTask(this, handler, 
-				SysApplication.curOrderInfo.content, SysApplication.curOrderInfo.isTakeOutOrder);
-		ddt.execute(UrlConstant.getServerUrl(this));
+				SysApplication.curOrderInfo);
+//		ddt.execute(UrlConstant.getServerUrl(this));
+		ddt.executeOnExecutor(MainActivity.FULL_TASK_EXECUTOR, UrlConstant.getServerUrl(this));
 
 		pbView.setHandler(handler);
 	}
 
-	//订单详情获取消息处理
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -296,7 +278,7 @@ public class OrderDetailActivity extends BaseActivity implements
 			pbView.hideView();
 			if (msg.what == CommonConstant.SUCCESS) {
 				initListView();
-				adapter.setData(SysApplication.curOrderInfo);
+				adapter.setData(SysApplication.curOrderInfo, true);
 				updatePrice();
 				if (SysApplication.curOrderInfo.isTakeOutOrder) {
 					((LinearLayout)findViewById(R.id.layout_detail)).setVisibility(View.VISIBLE);
@@ -314,7 +296,6 @@ public class OrderDetailActivity extends BaseActivity implements
 		};
 	};
 
-	//按钮的点击消息监听
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -347,7 +328,6 @@ public class OrderDetailActivity extends BaseActivity implements
 		return super.onKeyDown(keyCode, event);
 	}
 
-	//页面返回处理
 	private void returnBack() {
 		if ((isOrderChanged
 				|| dishesNum != SysApplication.curOrderInfo.getDishesNum()) && SysApplication.curOrderInfo.status <= OrderInfo.ACCEPT) {
@@ -378,21 +358,13 @@ public class OrderDetailActivity extends BaseActivity implements
 		}
 	}
 
-	/*****************************************************
-	 * 函数名：uploadOrder
-	 * 输     入：无
-	 * 输     出：无
-	 * 描     述：上传更新后的订单信息
-	 * 创建人：高亚妮
-	 * 日     期：2014-6-21
-	 *****************************************************/
 	private void uploadOrder() {
-		if (isOrderEmpty()) {
-			Toast.makeText(getApplicationContext(),
-					getResources().getString(R.string.order_empty),
-					Toast.LENGTH_SHORT).show();
-			return;
-		}
+//		if (isOrderEmpty()) {
+//			Toast.makeText(getApplicationContext(),
+//					getResources().getString(R.string.order_empty),
+//					Toast.LENGTH_SHORT).show();
+//			return;
+//		}
 		
 		if (SysApplication.hasSoldOutDishes()) {
 			Toast.makeText(getApplicationContext(),
@@ -401,31 +373,25 @@ public class OrderDetailActivity extends BaseActivity implements
 			return;
 		}
 
-		if (NetCheck.checkNet(this)) {
-			pbView.showProgressBar();
-			if (isNewOrder || SysApplication.curOrderInfo.status != OrderInfo.CONFIRM) {
-				GetTableListTask task = new GetTableListTask(this, 
-						tableListHandler, SysApplication.curOrderInfo.tableId);
+		if (isNewOrder || SysApplication.curOrderInfo.status != OrderInfo.CONFIRM) {
+			if (SysApplication.tableList.size() == 0) {
+				pbView.showProgressBar();
+				GetTableListTask task = new GetTableListTask(this, tableListHandler, "");
 				task.execute(UrlConstant.getServerUrl(this));
 			} else {
-				startUploadTask();
+				popUpdateOrderDialg(SysApplication.tableList);
 			}
 		} else {
-			Toast.makeText(getApplicationContext(),
-					getResources().getString(R.string.no_network),
-					Toast.LENGTH_SHORT).show();
+			pbView.showProgressBar();
+			startUploadTask();
 		}
 	}
 	
-	//桌号列表获取消息处理
 	private Handler tableListHandler = new Handler() {
 		public void dispatchMessage(Message msg) {
 			if (msg.what == CommonConstant.SUCCESS) {
-				@SuppressWarnings("unchecked")
-				List<TableInfo> tableList = (List<TableInfo>)msg.obj;
-				TableInfo info = new TableInfo();
 				pbView.hideView();
-				popUpdateOrderDialg(tableList);
+				popUpdateOrderDialg(SysApplication.tableList);
 			}
 		};
 	};
@@ -443,15 +409,7 @@ public class OrderDetailActivity extends BaseActivity implements
 			return true;
 		}
 	}
-	
-	/*****************************************************
-	 * 函数名：popUpdateOrderDialg
-	 * 输     入：List<TableInfo> tableList -- 桌号列表信息
-	 * 输     出：无
-	 * 描     述：弹出订单属性设置对话框
-	 * 创建人：高亚妮
-	 * 日     期：2014-6-21
-	 *****************************************************/
+
 	private void popUpdateOrderDialg(List<TableInfo> tableList) {
 		if (updateOrderDialog == null) {
 			updateOrderDialog = new AlertDialog.Builder(this).create();
@@ -464,8 +422,7 @@ public class OrderDetailActivity extends BaseActivity implements
 		orderUpdateView.setData(tableList, updateOrderDlgHandler);
 		updateOrderDialog.show();
 	}
-	
-	//订单属性设置消息处理
+
 	private Handler updateOrderDlgHandler = new Handler() {
 		public void dispatchMessage(Message msg) {
 			updateOrderDialog.dismiss();
@@ -479,21 +436,20 @@ public class OrderDetailActivity extends BaseActivity implements
 			}
 		};
 	};
-	
-	//开启新订单添加线程，向服务器添加新订单
+
 	private void startAddOrderTask() {
 		AddOrderTask addOrderTask = new AddOrderTask(this, uploadHandler);
-		addOrderTask.execute(UrlConstant.getServerUrl(this));
+//		addOrderTask.execute(UrlConstant.getServerUrl(this));
+		addOrderTask.executeOnExecutor(MainActivity.FULL_TASK_EXECUTOR, UrlConstant.getServerUrl(this));
 	}
 	
-	//开启新订单上传线程，向服务器上传修改后的订单
 	private void startUploadTask() {
 		OrderUploadingTask uploadTask = new OrderUploadingTask(this,
-				uploadHandler);
-		uploadTask.execute(UrlConstant.getServerUrl(this));
+				uploadHandler, SysApplication.curOrderInfo);
+//		uploadTask.execute(UrlConstant.getServerUrl(this));
+		uploadTask.executeOnExecutor(MainActivity.FULL_TASK_EXECUTOR, UrlConstant.getServerUrl(this));
 	}
 
-	//订单更新消息处理
 	private Handler uploadHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {

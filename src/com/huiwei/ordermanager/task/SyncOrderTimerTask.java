@@ -1,10 +1,10 @@
 /*****************************************************
- * Copyright(c)2014-2015 ±±¾©»ãÎªÓÀÐË¿Æ¼¼ÓÐÏÞ¹«Ë¾
+ * Copyright(c)2014-2015 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ë¿Æ¼ï¿½ï¿½ï¿½ï¿½Þ¹ï¿½Ë¾
  * SyncOrderTimerTask.java
- * ´´½¨ÈË£º¸ßÑÇÄÝ
- * ÈÕ     ÆÚ£º2014-6-24
- * Ãè     Êö£º¶©µ¥Í¬²½¶¨Ê±Æ÷Ïß³Ì
- * °æ     ±¾£ºv6.0
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-24
+ * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ß³ï¿½
+ * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½v6.0
  *****************************************************/
 
 package com.huiwei.ordermanager.task;
@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 
+import com.huiwei.ordermanager.activity.MainActivity;
 import com.huiwei.ordermanager.constant.UrlConstant;
 
 public class SyncOrderTimerTask extends AsyncTask<String, Void, Integer> {
@@ -30,12 +31,12 @@ public class SyncOrderTimerTask extends AsyncTask<String, Void, Integer> {
 	}
 
 	/*****************************************************
-	 * º¯ÊýÃû£ºdoInBackground
-	 * Êä     Èë£ºString... params -- ÊäÈë²ÎÊýÁÐ±í
-	 * Êä     ³ö£ºInteger -- Ö´ÐÐ½á¹û
-	 * Ãè     Êö£ºÏß³ÌÖ´ÐÐ¹ý³ÌÖÐµ÷ÓÃ£º´´½¨¶¨Ê±Æ÷£¨Ã¿5sÖ´ÐÐÒ»´ÎÍ¬²½¶©µ¥Ïß³Ì£©
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-24
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½doInBackground
+	 * ï¿½ï¿½     ï¿½ë£ºString... params -- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½Integer -- Ö´ï¿½Ð½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½Ö´ï¿½Ð¹ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ã¿5sÖ´ï¿½ï¿½Ò»ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì£ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-24
 	 *****************************************************/
 	@Override
 	protected Integer doInBackground(String... params) {
@@ -45,7 +46,8 @@ public class SyncOrderTimerTask extends AsyncTask<String, Void, Integer> {
 			public void run() {
 				try {
 					SyncOrderTask at = new SyncOrderTask(context, handler);
-					at.execute(UrlConstant.getServerUrl(context));
+//					at.execute(UrlConstant.getServerUrl(context));
+					at.executeOnExecutor(MainActivity.FULL_TASK_EXECUTOR, UrlConstant.getServerUrl(context));
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,18 +55,18 @@ public class SyncOrderTimerTask extends AsyncTask<String, Void, Integer> {
 				
 				Log.d("SyncOrderService", "update order");
 			}
-		}, 0, 1000*5);
+		}, 0, 1000*10);
 		
 		return null;
 	}
 
 	/*****************************************************
-	 * º¯ÊýÃû£ºdoInBackground
-	 * Êä     Èë£ºÎÞ
-	 * Êä     ³ö£ºÎÞ
-	 * Ãè     Êö£ºÍ£Ö¹Í¬²½¶©µ¥¶¨Ê±Æ÷
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-24
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½doInBackground
+	 * ï¿½ï¿½     ï¿½ë£ºï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½Í£Ö¹Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-24
 	 *****************************************************/
 	public void stopTimer() {
 		if (timer != null) {

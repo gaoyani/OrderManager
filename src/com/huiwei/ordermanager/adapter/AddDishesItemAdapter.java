@@ -1,10 +1,10 @@
 /*****************************************************
- * Copyright(c)2014-2015 ±±¾©»ãÎªÓÀÐË¿Æ¼¼ÓÐÏÞ¹«Ë¾
+ * Copyright(c)2014-2015 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ë¿Æ¼ï¿½ï¿½ï¿½ï¿½Þ¹ï¿½Ë¾
  * AddDishesItemAdapter.java
- * ´´½¨ÈË£º¸ßÑÇÄÝ
- * ÈÕ     ÆÚ£º2014-6-23
- * Ãè     Êö£º¼Ó²Í²Ëµ¥ÁÐ±íÊÊÅäÆ÷
- * °æ     ±¾£ºv6.0
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-23
+ * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½Ó²Í²Ëµï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½v6.0
  *****************************************************/
 
 package com.huiwei.ordermanager.adapter;
@@ -51,14 +51,14 @@ public class AddDishesItemAdapter extends DishesBaseAdapter {
 	}
 
 	/*****************************************************
-	 * º¯ÊýÃû£ºgetView
-	 * Êä     Èë£ºint position -- ¸ÃÊÓÍ¼ÔÚÊÊÅäÆ÷Êý¾ÝÖÐµÄÎ»ÖÃ 
-	 * 		   View convertView -- ¾ÉÊÓÍ¼
-	 * 			ViewGroup parent -- ´ËÊÓÍ¼×îÖÕ»á±»¸½¼Óµ½µÄ¸¸¼¶ÊÓÍ¼
-	 * Êä     ³ö£ºView -- Ö¸¶¨positionµÄÁÐ±íÊÓÍ¼
-	 * Ãè     Êö£º»ñÈ¡ÁÐ±íÖÐÖÆ¶¨positionÏÔÊ¾ÌØ¶¨Êý¾ÝµÄÊÓÍ¼
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-23
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½getView
+	 * ï¿½ï¿½     ï¿½ë£ºint position -- ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Î»ï¿½ï¿½ 
+	 * 		   View convertView -- ï¿½ï¿½ï¿½ï¿½Í¼
+	 * 			ViewGroup parent -- ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Õ»á±»ï¿½ï¿½ï¿½Óµï¿½ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½View -- Ö¸ï¿½ï¿½positionï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Í¼
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½Ð±ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½positionï¿½ï¿½Ê¾ï¿½Ø¶ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½Í¼
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-23
 	 *****************************************************/
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {	
@@ -95,7 +95,7 @@ public class AddDishesItemAdapter extends DishesBaseAdapter {
 					dishesInfo.price);
 			OrderedDishesInfo info = tempOrderInfo.findOrderedDishes(dishesInfo.id);
 			viewHolder.numberView.setData(info == null ? "0" : info.orderNum,
-					dishesInfo.id, handler);
+					dishesInfo.id, tempOrderInfo.id, false, handler);
 			viewHolder.soldOut.setVisibility(dishesInfo.isSoldOut ? View.VISIBLE : View.GONE);
 			viewHolder.numberView.setEnable(dishesInfo.isSoldOut ? false : true);
 		}

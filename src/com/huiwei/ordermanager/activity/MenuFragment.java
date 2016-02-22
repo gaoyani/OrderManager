@@ -1,10 +1,10 @@
 /*****************************************************
- * Copyright(c)2014-2015 ±±¾©»ãÎªÓÀÐË¿Æ¼¼ÓÐÏÞ¹«Ë¾
+ * Copyright(c)2014-2015 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ë¿Æ¼ï¿½ï¿½ï¿½ï¿½Þ¹ï¿½Ë¾
  * MenuFragment.java
- * ´´½¨ÈË£º¸ßÑÇÄÝ
- * ÈÕ     ÆÚ£º2014-6-20
- * Ãè     Êö£º²Ëµ¥Ò³ÃæÏÔÊ¾¼°²Ù×÷ÎÄ¼þ
- * °æ     ±¾£ºv6.0
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-20
+ * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½Ò³ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
+ * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½v6.0
  *****************************************************/
 package com.huiwei.ordermanager.activity;
 
@@ -47,6 +47,7 @@ import com.huiwei.ordermanager.info.OrderInfo;
 import com.huiwei.ordermanager.info.OrderedDishesInfo;
 import com.huiwei.ordermanager.info.PreferInfo;
 import com.huiwei.ordermanager.task.CategoryTask;
+import com.huiwei.ordermanager.task.SoldOutDishesTask;
 import com.huiwei.ordermanager.task.SyncMenuTask;
 import com.huiwei.ordermanager.view.InputDishesView;
 import com.huiwei.ordermanager.view.LoadingProgressView;
@@ -79,6 +80,7 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
 		dishesNum = (TextView)view.findViewById(R.id.tv_dishes_num);
 		dishesPrice = (TextView)view.findViewById(R.id.tv_price);
 		pbView = (LoadingProgressView)view.findViewById(R.id.loading_view);
+		pbView.setVisibility(View.GONE);
 		cancleSearch = (Button)view.findViewById(R.id.btn_cancle_search);
 		cancleSearch.setOnClickListener(this);
 		clearSearch = (Button)view.findViewById(R.id.btn_clean_search);
@@ -103,13 +105,13 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
 	}
 	
 	/*****************************************************
-	 * º¯ÊýÃû£ºinitButtons
-	 * Êä     Èë£ºView view -- Ò³Ãæ¶ÔÏóÊµÀý
-	 * Êä     ³ö£ºÎÞ
-	 * Ãè     Êö£º³õÊ¼»¯¹¤¾ßÀ¸°´Å¥
-	 * µ÷ÓÃ½Ó¿Ú£ºonCreateView
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-20
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½initButtons
+	 * ï¿½ï¿½     ï¿½ë£ºView view -- Ò³ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥
+	 * ï¿½ï¿½ï¿½Ã½Ó¿Ú£ï¿½onCreateView
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-20
 	 *****************************************************/
 	private void initButtons(View view) {
 		ImageView returnBtn = (ImageView)view.findViewById(R.id.iv_return);
@@ -152,40 +154,54 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
 	}
 	
 	/*****************************************************
-	 * º¯ÊýÃû£ºrefreshMenu
-	 * Êä     Èë£ºÎÞ
-	 * Êä     ³ö£ºÎÞ
-	 * Ãè     Êö£ºË¢ÐÂ²Ëµ¥ÁÐ±í
-	 * µ÷ÓÃ½Ó¿Ú£ºonResume
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-20
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½refreshMenu
+	 * ï¿½ï¿½     ï¿½ë£ºï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½Â²Ëµï¿½ï¿½Ð±ï¿½
+	 * ï¿½ï¿½ï¿½Ã½Ó¿Ú£ï¿½onResume
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-20
 	 *****************************************************/
 	private void refreshMenu() {
-		SysApplication.searchDishesIDList.clear();
+//		SysApplication.searchDishesIDList.clear();
 //		adapter.notifyDataSetChanged();
-		adapter.setData(SysApplication.dishesList, SysApplication.searchDishesIDList);
+//		adapter.setData(SysApplication.dishesList, SysApplication.searchDishesIDList);
 		
+		selGroupId = 0;
+		categoryAdapter.setData(SysApplication.categoryList);
 		syncMenu();
+		
+//		if (SysApplication.dishesList.size() == 0) {
+//			syncMenu();
+//		} else {
+//			selGroupId = 0;
+//			updateGroupDishes();
+//			categoryAdapter.setData(SysApplication.categoryList);
+//			pbView.setVisibility(View.GONE);
+//		}
 	}
 	
 	/*****************************************************
-	 * º¯ÊýÃû£ºsyncMenu
-	 * Êä     Èë£ºÎÞ
-	 * Êä     ³ö£ºÎÞ
-	 * Ãè     Êö£ºÍ¬²½²Ëµ¥
-	 * µ÷ÓÃ½Ó¿Ú£ºrefreshMenu
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-20
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½syncMenu
+	 * ï¿½ï¿½     ï¿½ë£ºï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½Ëµï¿½
+	 * ï¿½ï¿½ï¿½Ã½Ó¿Ú£ï¿½refreshMenu
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-20
 	 *****************************************************/
 	private void syncMenu() {
-		CategoryTask ct = new CategoryTask(getActivity(), handleCategory);
-		ct.execute(UrlConstant.getServerUrl(getActivity()));
+//		CategoryTask ct = new CategoryTask(getActivity(), handleCategory);
+//		ct.execute(UrlConstant.getServerUrl(getActivity()));
+//		
+//		SyncMenuTask smt = new SyncMenuTask(getActivity(), handlerSyncMenu);
+//		smt.execute(UrlConstant.getServerUrl(getActivity()));
 		
-		SyncMenuTask smt = new SyncMenuTask(getActivity(), handlerSyncMenu);
-		smt.execute(UrlConstant.getServerUrl(getActivity()));
+		SoldOutDishesTask task = new SoldOutDishesTask(getActivity(), handlerSyncMenu);
+		task.execute(UrlConstant.getServerUrl(getActivity()));
 		
-		pbView.showProgressBar();
-		pbView.setHandler(handlerSyncMenu);
+//		pbView.showProgressBar();
+//		pbView.setHandler(handlerSyncMenu);
 	}
 	
 	Handler handleCategory = new Handler() {
@@ -197,22 +213,22 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
 		}
 	};
 	
-	//Í¬²½²Ëµ¥Ïß³ÌÏûÏ¢´¦Àí
+	//Í¬ï¿½ï¿½ï¿½Ëµï¿½ï¿½ß³ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
 	Handler handlerSyncMenu = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			
-			if (msg.what == LoadingProgressView.RELOADING) {
-				syncMenu();
-				return;
-			}
+//			if (msg.what == LoadingProgressView.RELOADING) {
+//				syncMenu();
+//				return;
+//			}
 			
 			pbView.hideView();
 			if (msg.what == CommonConstant.SUCCESS) {
 				updateGroupDishes();
 			} else {
-				pbView.showLoadingFailed();
+//				pbView.showLoadingFailed();
 			}
 		}
 	};
@@ -228,13 +244,13 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
 	}
 	
 	/*****************************************************
-	 * º¯ÊýÃû£ºinitCategoryListView
-	 * Êä     Èë£ºView view -- Ò³Ãæ¶ÔÏóÊµÀý
-	 * Êä     ³ö£ºÎÞ
-	 * Ãè     Êö£º³õÊ¼»¯·ÖÀàÁÐ±í
-	 * µ÷ÓÃ½Ó¿Ú£ºonCreateView
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-20
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½initCategoryListView
+	 * ï¿½ï¿½     ï¿½ë£ºView view -- Ò³ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+	 * ï¿½ï¿½ï¿½Ã½Ó¿Ú£ï¿½onCreateView
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-20
 	 *****************************************************/
 	private void initCategoryListView(View view) {
 		listViewCategory = (ListView)view.findViewById(R.id.lv_catagery);
@@ -262,13 +278,13 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
 	}
 	
 	/*****************************************************
-	 * º¯ÊýÃû£ºinitDishesListView
-	 * Êä     Èë£ºView view -- Ò³Ãæ¶ÔÏóÊµÀý
-	 * Êä     ³ö£ºÎÞ
-	 * Ãè     Êö£º³õÊ¼»¯²Ëµ¥ÁÐ±í
-	 * µ÷ÓÃ½Ó¿Ú£ºonCreateView
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-20
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½initDishesListView
+	 * ï¿½ï¿½     ï¿½ë£ºView view -- Ò³ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ëµï¿½ï¿½Ð±ï¿½
+	 * ï¿½ï¿½ï¿½Ã½Ó¿Ú£ï¿½onCreateView
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-20
 	 *****************************************************/
 	private void initDishesListView(View view) {
 		listViewDishes = (ListView)view.findViewById(R.id.lv_dishes);
@@ -286,13 +302,13 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
 	} 
 	
 	/*****************************************************
-	 * º¯ÊýÃû£ºinitSearchText
-	 * Êä     Èë£ºView view -- Ò³Ãæ¶ÔÏóÊµÀý
-	 * Êä     ³ö£ºÎÞ
-	 * Ãè     Êö£º³õÊ¼»¯ËÑË÷¹¦ÄÜ£¬¼àÌýËÑË÷ÎÄ±¾ÊäÈë
-	 * µ÷ÓÃ½Ó¿Ú£ºonCreateView
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-20
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½initSearchText
+	 * ï¿½ï¿½     ï¿½ë£ºView view -- Ò³ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½ï¿½Ã½Ó¿Ú£ï¿½onCreateView
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-20
 	 *****************************************************/
 	private void initSearchText(View view) {
 		search = (EditText)view.findViewById(R.id.et_search);
@@ -326,18 +342,15 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
 		});
 	}
 	
-	//²Ëµ¥ÁÐ±íÖÐµÄÊÊÅäÆ÷ÏûÏ¢´¦Àí
+	//ï¿½Ëµï¿½ï¿½Ð±ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			int num = msg.arg1;
-			totalNum += num;
-			dishesNum.setText(String.valueOf(totalNum)+
-					getResources().getString(R.string.fen));
+			int num = msg.arg1;			
 			
 			String dishesId = (String) msg.obj;
 			OrderedDishesInfo info = tempOrderInfo.findOrderedDishes(dishesId);
-			if (num == 1) {
+			if (msg.what == 1) {
 				if (info == null) {
 					info = new OrderedDishesInfo();
 					info.orderNum = String.valueOf(num);
@@ -357,13 +370,13 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
 					
 					tempOrderInfo.dishesInfo.add(info);
 				} else {
-					info.orderNum = String.valueOf(Integer.parseInt(info.orderNum)+1);
+					info.orderNum = String.valueOf(num);
 				}
-			} else if (num == -1){
+			} else {
 				if (info != null && info.orderNum.equals("1")) {
 					tempOrderInfo.dishesInfo.remove(info);
 				} else {
-					info.orderNum = String.valueOf(Integer.parseInt(info.orderNum)-1);
+					info.orderNum = String.valueOf(num);
 				}
 			}	
 			
@@ -372,30 +385,34 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
 	};
 	
 	/*****************************************************
-	 * º¯ÊýÃû£ºupdatePrice
-	 * Êä     Èë£ºÎÞ
-	 * Êä     ³ö£ºÎÞ
-	 * Ãè     Êö£ºË¢ÐÂÒÑµã²Ëµ¥µÄ×Ü¼Û¸ñ
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-20
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½updatePrice
+	 * ï¿½ï¿½     ï¿½ë£ºï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½Ñµï¿½Ëµï¿½ï¿½ï¿½ï¿½Ü¼Û¸ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-20
 	 *****************************************************/
 	private void updatePrice() {
 		float total = 0;
+		totalNum = 0;
 		for (OrderedDishesInfo info : tempOrderInfo.dishesInfo) {
 			float price = Float.parseFloat(info.dishes.price)*
 					Integer.parseInt(info.orderNum);
 			
 			total += price;
+			totalNum += Integer.valueOf(info.orderNum);
 		}
 
 		float result = new BigDecimal(total).setScale(2, 
 				BigDecimal.ROUND_HALF_UP).floatValue(); 
 		
+		dishesNum.setText(String.valueOf(totalNum)+
+				getResources().getString(R.string.fen));
 		dishesPrice.setText(getResources().getString(R.string.yuan)+
 				String.valueOf(result));
 	}
 
-	//°´Å¥µÄµã»÷ÏûÏ¢¼àÌý
+	//ï¿½ï¿½Å¥ï¿½Äµï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -442,12 +459,12 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
 	}
 	
 	/*****************************************************
-	 * º¯ÊýÃû£ºpopInputDialog
-	 * Êä     Èë£ºÎÞ
-	 * Êä     ³ö£ºÎÞ
-	 * Ãè     Êö£ºµ¯³öÊÖÐ´²ËµÄÊäÈë¶Ô»°¿ò
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-20
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½popInputDialog
+	 * ï¿½ï¿½     ï¿½ë£ºï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-20
 	 *****************************************************/
 	private void popInputDialog() {
 		if (inputDialog == null) {
@@ -473,7 +490,7 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
 		}
 	};
 
-	//·µ»Ø´¦Àí
+	//ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½
 	public void returnBack() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setIcon(android.R.drawable.ic_dialog_info);
@@ -498,12 +515,12 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
 	}
 	
 	/*****************************************************
-	 * º¯ÊýÃû£ºupdateOrderInfo
-	 * Êä     Èë£ºÎÞ
-	 * Êä     ³ö£ºÎÞ
-	 * Ãè     Êö£º¸üÐÂ¶©µ¥ÐÅÏ¢
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-20
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½updateOrderInfo
+	 * ï¿½ï¿½     ï¿½ë£ºï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¶ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-20
 	 *****************************************************/
 	private void updateOrderInfo() {
 		for (OrderedDishesInfo info : tempOrderInfo.dishesInfo) {

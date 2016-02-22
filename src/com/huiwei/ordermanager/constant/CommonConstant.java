@@ -13,6 +13,8 @@ public class CommonConstant {
 	public static final int UPLOADING_SUCCESS = 850;
 	public static final int UPLOADING_FAIL = 851;
 	public static final int LOGIN_FAIL_LOGINED = 861;
+	public static final int LOGIN_MAC_ERROR = 862;
+	public static final int LOGIN_USER_DISABLE = 863;
 	public static final int EXCEPTION_FAIL = 900;
 	
 	public static final int CALLING_ADD_ORDER = 1;

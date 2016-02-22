@@ -1,10 +1,10 @@
 /*****************************************************
- * Copyright(c)2014-2015 北京汇为永兴科技有限公司
+ * Copyright(c)2014-2015 锟斤拷锟斤拷锟斤拷为锟斤拷锟剿科硷拷锟斤拷锟睫癸拷司
  * OrderDetailItemAdapter.java
- * 创建人：高亚妮
- * 日     期：2014-6-23
- * 描     述：订单详情列表适配器
- * 版     本：v6.0
+ * 锟斤拷锟斤拷锟剿ｏ拷锟斤拷锟斤拷锟斤拷
+ * 锟斤拷     锟节ｏ拷2014-6-23
+ * 锟斤拷     锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟叫憋拷锟斤拷锟斤拷锟斤拷
+ * 锟斤拷     锟斤拷锟斤拷v6.0
  *****************************************************/
 
 package com.huiwei.ordermanager.adapter;
@@ -31,6 +31,7 @@ public class OrderDetailItemAdapter extends BaseAdapter {
 	private Context mContext;
 	private Handler handler;
 	private OrderInfo curOrderInfo = new OrderInfo();
+	private boolean hasFooter = false;
 
 	public OrderDetailItemAdapter(Context context, Handler handler) {
 		mInflater = LayoutInflater.from(context);
@@ -38,10 +39,13 @@ public class OrderDetailItemAdapter extends BaseAdapter {
 		this.handler = handler;
 	}
 	
-	public void setData(OrderInfo info) {
+	public void setData(OrderInfo info, boolean hasFooter) {
+		this.hasFooter = hasFooter;
 		if (info != null) {
 			curOrderInfo.dishesInfo.clear();
 			curOrderInfo.dishesInfo.addAll(info.dishesInfo);
+			curOrderInfo.id = info.id;
+			curOrderInfo.status = info.status;
 			curOrderInfo.isVip = info.isVip;
 			curOrderInfo.isTakeOutOrder = info.isTakeOutOrder;
 			notifyDataSetChanged();
@@ -51,7 +55,7 @@ public class OrderDetailItemAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return curOrderInfo.dishesInfo.size()+1;
+		return hasFooter ? curOrderInfo.dishesInfo.size()+1 : curOrderInfo.dishesInfo.size();
 	}
 
 	@Override
@@ -64,17 +68,7 @@ public class OrderDetailItemAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		return position;
 	}
-
-	/*****************************************************
-	 * 函数名：getView
-	 * 输     入：int position -- 该视图在适配器数据中的位置 
-	 * 		   View convertView -- 旧视图
-	 * 			ViewGroup parent -- 此视图最终会被附加到的父级视图
-	 * 输     出：View -- 指定position的列表视图
-	 * 描     述：获取列表中制定position显示特定数据的视图
-	 * 创建人：高亚妮
-	 * 日     期：2014-6-23
-	 *****************************************************/
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
@@ -114,8 +108,8 @@ public class OrderDetailItemAdapter extends BaseAdapter {
 			}
 			
 			viewHolder.numberView.setData(dishesInfo.orderNum, 
-					dishesInfo.isInput ? dishesInfo.dishes.name : 
-					dishesInfo.dishes.id, handler);
+					dishesInfo.isInput ? dishesInfo.dishes.name : dishesInfo.dishes.id, 
+					curOrderInfo.id, (curOrderInfo.status == OrderInfo.CONFIRM), handler);
 			viewHolder.numberView.setEnable(curOrderInfo.isTakeOutOrder ? false : true);
 			
 			viewHolder.prefer.setText(getPrefers(dishesInfo.dishes));
@@ -126,14 +120,6 @@ public class OrderDetailItemAdapter extends BaseAdapter {
 		return convertView;
 	}
 	
-	/*****************************************************
-	 * 函数名：getPrefers
-	 * 输     入：DishesInfo dishesInfo -- 菜品数据 
-	 * 输     出：String -- 按制定格式显示的偏好字符串
-	 * 描     述：获取制定菜品的偏好
-	 * 创建人：高亚妮
-	 * 日     期：2014-6-23
-	 *****************************************************/
 	private String getPrefers(DishesInfo dishesInfo) {
 		String prefers = "";
 		for (PreferInfo info : dishesInfo.preferList) {

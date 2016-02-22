@@ -16,6 +16,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.huiwei.commonlib.MD5;
 import com.huiwei.commonlib.Preferences;
@@ -59,21 +60,23 @@ public class GetTableListTask extends
 			String sessionID = Preferences.GetString(context, "session_id");
 			request.addHeader("Cookie",
 					sessionID.substring(0, (sessionID.indexOf(";"))));
-			HttpResponse httpResponse = new DefaultHttpClient()
-					.execute(request);
+			HttpResponse httpResponse = (new TaskHttpClient()).client.execute(request);
 			String retSrc = EntityUtils.toString(httpResponse.getEntity());
+			Log.d("tableList", retSrc);
 			JSONObject jsonObject = new JSONObject(retSrc);
 			JSONArray jsonArray = jsonObject.getJSONObject("params").getJSONArray("tables");
-			List<TableInfo> tableList = new ArrayList<TableInfo>();
+//			List<TableInfo> tableList = new ArrayList<TableInfo>();
+			SysApplication.clearTableList();
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject jsonTable = jsonArray.getJSONObject(i);
 				TableInfo tableInfo = new TableInfo();
 				tableInfo.id = jsonTable.getString("id");
 				tableInfo.name = jsonTable.getString("name");
-				tableList.add(tableInfo);
+//				tableList.add(tableInfo);
+				SysApplication.tableList.add(tableInfo);
 			}
 			
-			message.obj = tableList;
+//			message.obj = tableList;
 			flag = CommonConstant.SUCCESS;
 
 		} catch (Exception e) {
@@ -88,7 +91,9 @@ public class GetTableListTask extends
 	protected void onPostExecute(Integer result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
-		message.what = result;
-		handler.sendMessage(message);
+		if (handler != null) {
+			message.what = result;
+			handler.sendMessage(message);
+		}
 	}
 }

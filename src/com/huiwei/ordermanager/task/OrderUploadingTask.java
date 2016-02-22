@@ -1,10 +1,10 @@
 /*****************************************************
- * Copyright(c)2014-2015 ±±¾©»ãÎªÓÀÐË¿Æ¼¼ÓÐÏÞ¹«Ë¾
+ * Copyright(c)2014-2015 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ë¿Æ¼ï¿½ï¿½ï¿½ï¿½Þ¹ï¿½Ë¾
  * OrderUploadingTask.java
- * ´´½¨ÈË£º¸ßÑÇÄÝ
- * ÈÕ     ÆÚ£º2014-6-24
- * Ãè     Êö£º¶©µ¥ÉÏ´«Ïß³Ì
- * °æ     ±¾£ºv6.0
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-24
+ * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ß³ï¿½
+ * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½v6.0
  *****************************************************/
 
 package com.huiwei.ordermanager.task;
@@ -25,8 +25,9 @@ import android.os.Message;
 
 import com.huiwei.commonlib.MD5;
 import com.huiwei.commonlib.Preferences;
-import com.huiwei.ordermanager.common.SysApplication;
+//import com.huiwei.ordermanager.common.SysApplication;
 import com.huiwei.ordermanager.constant.CommonConstant;
+import com.huiwei.ordermanager.info.OrderInfo;
 import com.huiwei.ordermanager.info.OrderedDishesInfo;
 import com.huiwei.ordermanager.info.PreferInfo;
 
@@ -36,20 +37,14 @@ public class OrderUploadingTask extends
 	Handler handler = null;
 	Message message = null;
 	int flag = 0;
+	OrderInfo orderInfo;
 
-	public OrderUploadingTask(Context context, Handler handler) {
+	public OrderUploadingTask(Context context, Handler handler, OrderInfo orderInfo) {
 		this.context = context;
 		this.handler = handler;
+		this.orderInfo = orderInfo;
 	}
 
-	/*****************************************************
-	 * º¯ÊýÃû£ºdoInBackground
-	 * Êä     Èë£ºString... params -- ÊäÈë²ÎÊýÁÐ±í
-	 * Êä     ³ö£ºInteger -- Ö´ÐÐ½á¹û
-	 * Ãè     Êö£ºÏß³ÌÖ´ÐÐ¹ý³ÌÖÐµ÷ÓÃ£ºÓë·þÎñÆ÷½»»¥ÉÏ´«ÐÞ¸ÄºóµÄ¶©µ¥
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-24
-	 *****************************************************/
 	@Override
 	protected Integer doInBackground(String... params) {
 		message = new Message();
@@ -57,16 +52,27 @@ public class OrderUploadingTask extends
 		try {
 			HttpPost request = new HttpPost(url);
 			JSONObject param = new JSONObject();
+//			param.put("user_id", Preferences.GetString(context, "user_id"));
+//			param.put("orderid", SysApplication.curOrderInfo.content);
+//			param.put("tableid", SysApplication.curOrderInfo.tableId);
+//			param.put("order_text", SysApplication.curOrderInfo.notes);
+//			param.put("people_num", SysApplication.curOrderInfo.peopleNum);
+//			param.put("is_vip", SysApplication.curOrderInfo.isVip ? 1 : 0);
+//			param.put("is_add_order", SysApplication.curOrderInfo.isAddOrder);
+//			param.put("waimai", SysApplication.curOrderInfo.isTakeOutOrder ? 1 : 0);
+			
 			param.put("user_id", Preferences.GetString(context, "user_id"));
-			param.put("orderid", SysApplication.curOrderInfo.content);
-			param.put("tableid", SysApplication.curOrderInfo.tableId);
-			param.put("order_text", SysApplication.curOrderInfo.notes);
-			param.put("is_vip", SysApplication.curOrderInfo.isVip ? 1 : 0);
-			param.put("is_add_order", SysApplication.curOrderInfo.isAddOrder);
-			param.put("waimai", SysApplication.curOrderInfo.isTakeOutOrder ? 1 : 0);
+			param.put("orderid", orderInfo.content);
+			param.put("tableid", orderInfo.tableId);
+			param.put("order_text", orderInfo.notes);
+			param.put("people_num", orderInfo.peopleNum);
+			param.put("is_vip", orderInfo.isVip ? 1 : 0);
+			param.put("is_add_order", orderInfo.isAddOrder);
+			param.put("waimai", orderInfo.isTakeOutOrder ? 1 : 0);
 			
 			JSONArray ar = new JSONArray();
-			for (OrderedDishesInfo info : SysApplication.curOrderInfo.dishesInfo) {
+//			for (OrderedDishesInfo info : SysApplication.curOrderInfo.dishesInfo) {
+			for (OrderedDishesInfo info : orderInfo.dishesInfo) {
 				JSONObject am = new JSONObject();
 				am.put("menuid", info.isInput ? 0 : info.dishes.id);
 				am.put("name", info.dishes.name);
@@ -101,8 +107,7 @@ public class OrderUploadingTask extends
 			String sessionID = Preferences.GetString(context, "session_id");
 			request.addHeader("Cookie",
 					sessionID.substring(0, (sessionID.indexOf(";"))));
-			HttpResponse httpResponse = new DefaultHttpClient()
-					.execute(request);
+			HttpResponse httpResponse = (new TaskHttpClient()).client.execute(request);
 			String retSrc = EntityUtils.toString(httpResponse.getEntity());
 			JSONObject resultJson = new JSONObject(retSrc);
 			String result = resultJson.getJSONObject("params").getString("message");
@@ -122,12 +127,12 @@ public class OrderUploadingTask extends
 	}
 
 	/*****************************************************
-	 * º¯ÊýÃû£ºonPostExecute
-	 * Êä     Èë£ºInteger result -- Ö´ÐÐ½á¹û
-	 * Êä     ³ö£ºÎÞ
-	 * Ãè     Êö£ºÏß³ÌÖ´ÐÐÍê±Ïºóµ÷ÓÃ
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-24
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½onPostExecute
+	 * ï¿½ï¿½     ï¿½ë£ºInteger result -- Ö´ï¿½Ð½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½Ö´ï¿½ï¿½ï¿½ï¿½Ïºï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-24
 	 *****************************************************/
 	@Override
 	protected void onPostExecute(Integer result) {

@@ -72,7 +72,7 @@
     <Button
         android:id="@+id/btn_accept"
         android:layout_width="60dp"
-        android:layout_height="30dp"
+        android:layout_height="35dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
@@ -81,7 +81,27 @@
         android:clickable="true"
         android:focusable="false"
         android:gravity="center"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:text="@string/accept"
+        android:textColor="#ffffffff"
+        android:textSize="16sp" />
+    
+    <Button
+        android:id="@+id/btn_print_account"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_confirm_selector"
+        android:clickable="true"
+        android:focusable="false"
+        android:gravity="center"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="@string/print_accounts"
         android:textColor="#ffffffff"
         android:textSize="16sp" />
 

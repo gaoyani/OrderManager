@@ -51,8 +51,7 @@ public class OrderDeleteTask extends AsyncTask<String, Void, Integer> {
 			String sessionID = Preferences.GetString(context, "session_id");
 			request.addHeader("Cookie",
 					sessionID.substring(0, (sessionID.indexOf(";"))));
-			HttpResponse httpResponse = new DefaultHttpClient()
-					.execute(request);
+			HttpResponse httpResponse = (new TaskHttpClient()).client.execute(request);
 			String retSrc = EntityUtils.toString(httpResponse.getEntity());
 			JSONObject result = new JSONObject(retSrc);
 

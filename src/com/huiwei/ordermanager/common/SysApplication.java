@@ -1,10 +1,10 @@
 /*****************************************************
- * Copyright(c)2014-2015 ±±¾©»ãÎªÓÀĞË¿Æ¼¼ÓĞÏŞ¹«Ë¾
+ * Copyright(c)2014-2015 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ë¿Æ¼ï¿½ï¿½ï¿½ï¿½Ş¹ï¿½Ë¾
  * SysApplication.java
- * ´´½¨ÈË£º¸ßÑÇÄİ
- * ÈÕ     ÆÚ£º2014-6-22
- * Ãè     Êö£ºÈ«¾ÖÊı¾İ´æ´¢¼°²Ù×÷
- * °æ     ±¾£ºv6.0
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-22
+ * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½İ´æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½v6.0
  *****************************************************/
 
 package com.huiwei.ordermanager.common;
@@ -13,6 +13,7 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -27,6 +28,7 @@ import com.huiwei.ordermanager.info.DishesInfo;
 import com.huiwei.ordermanager.info.OrderInfo;
 import com.huiwei.ordermanager.info.OrderedDishesInfo;
 import com.huiwei.ordermanager.info.PreferInfo;
+import com.huiwei.ordermanager.info.TableInfo;
 
 public class SysApplication extends Application {
 
@@ -36,20 +38,14 @@ public class SysApplication extends Application {
 
 	public static List<CategoryInfo> categoryList = new ArrayList<CategoryInfo>();
 	public static Map<Integer, PreferInfo> preferList = new HashMap<Integer, PreferInfo>();
-	
+	public static List<TableInfo> tableList = new ArrayList<TableInfo>();
 	public static List<OrderInfo> newOrderList = new ArrayList<OrderInfo>();
-	public static List<OrderInfo> confirmOrderList = new ArrayList<OrderInfo>();
-	public static Map<String, DishesInfo> dishesList = new HashMap<String, DishesInfo>();
+//	public static List<OrderInfo> confirmOrderList = new ArrayList<OrderInfo>();
+	public static Map<String, List<OrderInfo>> confirmOrderList = new LinkedHashMap<String, List<OrderInfo>>();
+	public static List<String> confirmTableIDList = new ArrayList<String>();
+	public static Map<String, DishesInfo> dishesList = new LinkedHashMap<String, DishesInfo>();
 	public static List<String> searchDishesIDList = new ArrayList<String>();
 	
-	/*****************************************************
-	 * º¯ÊıÃû£ºsearchDishesGroup
-	 * Êä     Èë£ºint groupID -- ·ÖÀàid
-	 * Êä     ³ö£ºÎŞ
-	 * Ãè     Êö£º¸ù¾İ·ÖÀàidÉ¸Ñ¡²ËÆ·£¬²¢´æÈëËÑË÷ÁĞ±í
-	 * ´´½¨ÈË£º¸ßÑÇÄİ
-	 * ÈÕ     ÆÚ£º2014-6-22
-	 *****************************************************/
 	public static void searchDishesGroup(int groupID) {
 		searchDishesIDList.clear();
 		if (groupID == 0) {
@@ -65,15 +61,12 @@ public class SysApplication extends Application {
 		}
 	}
 	
-	/*****************************************************
-	 * º¯ÊıÃû£ºsearchDishesName
-	 * Êä     Èë£ºString name -- ²ËÆ·¼ìË÷Ê±µÄÊäÈëÎÄ±¾£¨°üÀ¨²ËÆ·
-	 * 		      Ãû³Æ£¬²ËÆ·Ãû³ÆµÄÆ´Òô£¬²ËÆ·Ãû³ÆµÄÆ´ÒôÊ××ÖÄ¸£©
-	 * Êä     ³ö£ºÎŞ
-	 * Ãè     Êö£º¸ù¾İÊäÈëÎÄ±¾É¸Ñ¡²ËÆ·£¬²¢´æÈëËÑË÷ÁĞ±í
-	 * ´´½¨ÈË£º¸ßÑÇÄİ
-	 * ÈÕ     ÆÚ£º2014-6-22
-	 *****************************************************/
+	public static void resetSoldOut() {
+		for (String id : dishesList.keySet()) {  
+			dishesList.get(id).isSoldOut = false;
+		}
+	}
+	
 	public static void searchDishesName(String name) {
 		searchDishesIDList.clear();
 		for (String id : dishesList.keySet()) {  
@@ -86,29 +79,27 @@ public class SysApplication extends Application {
 		}  
 	}
 	
-	/*****************************************************
-	 * º¯ÊıÃû£ºclearSearch
-	 * Êä     Èë£ºÎŞ
-	 * Êä     ³ö£ºÎŞ
-	 * Ãè     Êö£ºÇå¿ÕËÑË÷ÁĞ±í
-	 * ´´½¨ÈË£º¸ßÑÇÄİ
-	 * ÈÕ     ÆÚ£º2014-6-22
-	 *****************************************************/
+	public static int searchPeopleNum(String tableID) {
+		if (!confirmOrderList.containsKey(tableID)) {
+			return 0;
+		}
+		
+		for (OrderInfo orderInfo : confirmOrderList.get(tableID)) {
+			if (!orderInfo.isAddOrder && orderInfo.tableId.compareTo(tableID) == 0) {
+				return orderInfo.peopleNum;
+			}
+		}
+		
+		return 0;
+	}
+
 	public static void clearSearch() {
 		searchDishesIDList.clear();
 		for (String id : dishesList.keySet()) {  
 			searchDishesIDList.add(id);
 		} 
 	}
-	
-	/*****************************************************
-	 * º¯ÊıÃû£ºclearSearch
-	 * Êä     Èë£ºÎŞ
-	 * Êä     ³ö£ºĞÂ²Ëµ¥µÄ¸öÊı
-	 * Ãè     Êö£º»ñÈ¡¶©µ¥ÖĞµÄĞÂ¶©µ¥¸öÊı
-	 * ´´½¨ÈË£º¸ßÑÇÄİ
-	 * ÈÕ     ÆÚ£º2014-6-22
-	 *****************************************************/
+
 	public static int getNewOrderNum() {
 		int num = 0;
 		for (OrderInfo info : newOrderList) {
@@ -120,35 +111,28 @@ public class SysApplication extends Application {
 		return num;
 	}
 	
-	/*****************************************************
-	 * º¯ÊıÃû£ºclearOrderList
-	 * Êä     Èë£ºÎŞ
-	 * Êä     ³ö£ºÎŞ
-	 * Ãè     Êö£ºÇå¿Õ¶©µ¥ÁĞ±í
-	 * ´´½¨ÈË£º¸ßÑÇÄİ
-	 * ÈÕ     ÆÚ£º2014-6-22
-	 *****************************************************/
+	public static void clearTableList() {
+		for (TableInfo info : tableList) {
+			info = null;
+		}
+		
+		tableList.clear();
+	}
+
 	public static void clearOrderList() {
 		for (OrderInfo info : newOrderList) {
 			info = null;
 		}
 		
-		for (OrderInfo info : confirmOrderList) {
-			info = null;
-		}
+//		for (String tableId : confirmOrderList.keySet()) {
+//			confirmOrderList.get(tableId).clear();
+//		}
 		
 		newOrderList.clear();
 		confirmOrderList.clear();
+		confirmTableIDList.clear();
 	}
 
-	/*****************************************************
-	 * º¯ÊıÃû£ºhasSoldOutDishes
-	 * Êä     Èë£ºÎŞ
-	 * Êä     ³ö£ºboolean -- ÊÇ·ñÓĞÊÛóÀ²ËÆ·
-	 * Ãè     Êö£º¼ìË÷²Ëµ¥£¬ÊÇ·ñ´æÔÚÊÛóÀµÄ²ËÆ·
-	 * ´´½¨ÈË£º¸ßÑÇÄİ
-	 * ÈÕ     ÆÚ£º2014-6-22
-	 *****************************************************/
 	public static boolean hasSoldOutDishes() {
 		for (OrderedDishesInfo dishesInfo : curOrderInfo.dishesInfo) {
 			if (dishesInfo.dishes.isSoldOut
@@ -160,14 +144,6 @@ public class SysApplication extends Application {
 		return false;
 	}
 
-	/*****************************************************
-	 * º¯ÊıÃû£ºgetAppVersionName
-	 * Êä     Èë£ºContext context -- ÉÏÏÂÎÄ¾ä±ú
-	 * Êä     ³ö£ºString -- app°æ±¾ºÅ
-	 * Ãè     Êö£º»ñÈ¡appµÄ°æ±¾ºÅ
-	 * ´´½¨ÈË£º¸ßÑÇÄİ
-	 * ÈÕ     ÆÚ£º2014-6-22
-	 *****************************************************/
 	public static String getAppVersionName(Context context) {
 		String versionName = "";
 		try {
@@ -184,14 +160,6 @@ public class SysApplication extends Application {
 		return versionName;
 	}
 
-	/*****************************************************
-	 * º¯ÊıÃû£ºgetFullPinYin
-	 * Êä     Èë£ºString source -- ÖĞÎÄ×Ö·û´®
-	 * Êä     ³ö£ºString -- È«Æ´µÄÆ´Òô×Ö·û´®
-	 * Ãè     Êö£º»ñÈ¡ÖĞÎÄ×Ö·û´®µÄÆ´Òô
-	 * ´´½¨ÈË£º¸ßÑÇÄİ
-	 * ÈÕ     ÆÚ£º2014-6-22
-	 *****************************************************/
 	public static String getFullPinYin(String source) {
 		if (!Arrays.asList(Collator.getAvailableLocales()).contains(
 				Locale.CHINA)) {
@@ -215,14 +183,6 @@ public class SysApplication extends Application {
 		return result.toString();
 	}
 
-	/*****************************************************
-	 * º¯ÊıÃû£ºgetFirstPinYin
-	 * Êä     Èë£ºString source -- ÖĞÎÄ×Ö·û´®
-	 * Êä     ³ö£ºString -- Æ´ÒôÊ××ÖÄ¸×Ö·û´®
-	 * Ãè     Êö£º»ñÈ¡ÖĞÎÄ×Ö·û´®µÄÆ´ÒôÊ××ÖÄ¸
-	 * ´´½¨ÈË£º¸ßÑÇÄİ
-	 * ÈÕ     ÆÚ£º2014-6-22
-	 *****************************************************/
 	public static String getFirstPinYin(String source) {
 		if (!Arrays.asList(Collator.getAvailableLocales()).contains(
 				Locale.CHINA)) {

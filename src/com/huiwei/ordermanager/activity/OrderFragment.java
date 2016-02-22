@@ -1,11 +1,3 @@
-/*****************************************************
- * Copyright(c)2014-2015 北京汇为永兴科技有限公司
- * OrderFragment.java
- * 创建人：高亚妮
- * 日     期：2014-6-20
- * 描     述：订单页面显示及操作文件
- * 版     本：v6.0
- *****************************************************/
 package com.huiwei.ordermanager.activity;
 
 import java.util.ArrayList;
@@ -13,6 +5,7 @@ import java.util.List;
 import java.util.Timer;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -43,6 +36,7 @@ import com.huiwei.ordermanager.constant.UrlConstant;
 import com.huiwei.ordermanager.info.OrderInfo;
 import com.huiwei.ordermanager.info.TableInfo;
 import com.huiwei.ordermanager.task.GetTableListTask;
+import com.huiwei.ordermanager.task.SyncOrderTask;
 import com.huiwei.ordermanager.task.SyncOrderTimerTask;
 import com.huiwei.ordermanager.view.LoadingProgressView;
 
@@ -58,10 +52,10 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 	private RelativeLayout groupUnconfirm;
 	private LoadingProgressView pbView;
 	private OrderItemAdapter adapter;
-	private Timer updateTimer;
 	private boolean isOrderUpdate = false;
 	private SyncOrderTimerTask sotTask;
 	private int type = UNCONFIRM_LIST;
+	private boolean isFirstExc = true;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -87,6 +81,12 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 	
 	@Override
 	public void onResume() {
+		if (isFirstExc) {
+			isFirstExc = false;
+		} else {
+			getOrders();
+		}
+		
 //		startSyncOrderTimer();
 		super.onResume();
 	}
@@ -109,16 +109,7 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 		Log.d("hidden", hidden ? "true" : "false");
 		super.onHiddenChanged(hidden);
 	}
-	
-	/*****************************************************
-	 * 函数名：initGroupBtns
-	 * 输     入：View view -- 页面对象实例
-	 * 输     出：无
-	 * 描     述：初始化tab按钮
-	 * 调用接口：onCreateView
-	 * 创建人：高亚妮
-	 * 日     期：2014-6-20
-	 *****************************************************/
+
 	private void initGroupBtns(View view) {
 		groupConfirm = (TextView)view.findViewById(R.id.tv_confirm);
 		groupConfirm.setOnClickListener(this);
@@ -129,23 +120,19 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 		groupUnconfirmBL = (ImageView)view.findViewById(R.id.iv_unconfirm);
 		groupConfirmBL = (ImageView)view.findViewById(R.id.iv_confirm);
 	}
-	
-	/*****************************************************
-	 * 函数名：startSyncOrderTimer
-	 * 输     入：无
-	 * 输     出：无
-	 * 描     述：启动订单同步线程计时器
-	 * 调用接口：onCreateView
-	 * 创建人：高亚妮
-	 * 日     期：2014-6-20
-	 *****************************************************/
+
 	private void startSyncOrderTimer() {
 		sotTask = new SyncOrderTimerTask(getActivity(), handlerSyncOrder);
-		sotTask.execute(UrlConstant.getServerUrl(getActivity()));
+//		sotTask.execute(UrlConstant.getServerUrl(getActivity()));
+		sotTask.executeOnExecutor(MainActivity.FULL_TASK_EXECUTOR, UrlConstant.getServerUrl(getActivity()));
 		Log.d("OrderFragment", "startSyncOrderTimer");
 	}
 	
-	//停止订单同步线程计时器
+	private void getOrders() {
+		SyncOrderTask at = new SyncOrderTask(getActivity(), handlerSyncOrder);
+		at.executeOnExecutor(MainActivity.FULL_TASK_EXECUTOR, UrlConstant.getServerUrl(getActivity()));
+	}
+	
 	private void stopSyncOrder() {
 		Log.d("OrderFragment", "stopSyncOrder");
 		if (!sotTask.isCancelled()) {
@@ -155,7 +142,6 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 		}
 	}
 
-	//同步订单线程消息处理
 	Handler handlerSyncOrder = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -182,27 +168,19 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 			}
 		}
 	};
-	
-	/*****************************************************
-	 * 函数名：initListView
-	 * 输     入：View view -- 页面对象实例
-	 * 输     出：无
-	 * 描     述：初始化订单列表
-	 * 调用接口：onCreateView
-	 * 创建人：高亚妮
-	 * 日     期：2014-6-20
-	 *****************************************************/
+
 	private void initListView(View view) {
 		orderListView = (ListView)view.findViewById(R.id.lv_order_info);
-		adapter = new OrderItemAdapter(getActivity(), handlerStatus, handlerDelete);
+		adapter = new OrderItemAdapter(getActivity(), handlerStatus, handlerDelete, handlerPrintAccount);
 		orderListView.setAdapter(adapter);
 		orderListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+		
 				OrderInfo info = type == UNCONFIRM_LIST ? SysApplication.newOrderList.get(position) : 
-					SysApplication.confirmOrderList.get(position);
+					SysApplication.confirmOrderList.get(SysApplication.confirmTableIDList.get(position)).get(0);
 				if (info.type == OrderInfo.TYPE_CALLING || 
 						(info.type == OrderInfo.TYPE_ORDER && info.status == OrderInfo.NEW))
 					return;
@@ -215,13 +193,12 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 				SysApplication.curOrderInfo.isTakeOutOrder = info.isTakeOutOrder;
 				
 				Intent intent = getActivity().getIntent();
-				intent.setClass(getActivity(), OrderDetailActivity.class);
+				intent.setClass(getActivity(), type == UNCONFIRM_LIST ? OrderDetailActivity.class : ConfirmOrderDetailActivity.class);
 				getActivity().startActivity(intent);
 			}
 		});
 	}
-	
-	//订单状态更改消息处理
+
 	private Handler handlerStatus = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -231,8 +208,7 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 					R.string.accept : R.string.confirm);
 			
 			if (msg.what == CommonConstant.SUCCESS) {
-				stopSyncOrder();
-				startSyncOrderTimer();
+				getOrders();
 				Toast.makeText(getActivity(),  statusStr + getResources().
 						getString(R.string.success), Toast.LENGTH_SHORT).show();
 			} else if (msg.what == CommonConstant.ORDER_COMPLATE){
@@ -244,14 +220,12 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 			}
 		};
 	};
-	
-	//订单删除消息处理
+
 	private Handler handlerDelete = new Handler() {
 		@Override
 		public void handleMessage(android.os.Message msg) {
 			if (msg.what == CommonConstant.SUCCESS) {
-				stopSyncOrder();
-				startSyncOrderTimer();
+				getOrders();
 				Toast.makeText(getActivity(), getResources().getString(
 						R.string.order_delete_success), Toast.LENGTH_SHORT).show();
 			} else if (msg.what == CommonConstant.OTHER_FAIL){
@@ -264,14 +238,29 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 		};
 	};
 	
-	//更新订单列表
+	private Handler handlerPrintAccount = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if (msg.what == CommonConstant.SUCCESS) {
+				Toast.makeText(getActivity(),  getResources().
+						getString(R.string.print_accounts) + getResources().
+						getString(R.string.success), Toast.LENGTH_SHORT).show();
+			} else if (msg.what == CommonConstant.OTHER_FAIL){
+				Toast.makeText(getActivity(), (String)msg.obj, Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getActivity(), getResources().
+						getString(R.string.print_accounts) + getResources().
+						getString(R.string.failed), Toast.LENGTH_SHORT).show();
+			}
+		};
+	};
+	
 	public void updateListView() {		
 		resetOrderNum();
 		adapter.setListType(type);
-		adapter.setData(SysApplication.newOrderList, SysApplication.confirmOrderList);
+		adapter.setData(SysApplication.newOrderList, SysApplication.confirmOrderList, SysApplication.confirmTableIDList);
 	}
 	
-	//统计并显示未处理订单数
 	private void resetOrderNum() {
 		int num = 0;
 		for (OrderInfo info : SysApplication.newOrderList) {
@@ -286,7 +275,6 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 		newNum.setVisibility(num == 0 ? View.GONE : View.VISIBLE);
 	}
 	
-	//按钮的点击消息监听
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -295,9 +283,15 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 			break;
 			
 		case R.id.iv_plus: {
-			GetTableListTask task = new GetTableListTask(getActivity(), 
-					tableListHandler, "");
-			task.execute(UrlConstant.getServerUrl(getActivity()));
+			if (SysApplication.tableList.size() == 0) {
+				GetTableListTask task = new GetTableListTask(getActivity(), 
+						tableListHandler, "");
+				task.execute(UrlConstant.getServerUrl(getActivity()));
+				pbView.showProgressBar();
+			} else {
+				addNewOrder(SysApplication.tableList);
+			}
+			
 			plusBtn.setOnClickListener(null);
 		}
 			break;
@@ -319,7 +313,6 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 		}
 	}
 	
-	//设置tab按钮状态
 	private void resetTypeBtn() {
 		groupUnconfirmBL.setBackgroundColor(getResources().getColor(type == UNCONFIRM_LIST ? 
 				R.color.selected : R.color.order_group_bl_color));
@@ -329,28 +322,19 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 	
 	private Handler tableListHandler = new Handler() {
 		public void dispatchMessage(Message msg) {
+			pbView.hideView();
 			if (msg.what == CommonConstant.SUCCESS) {
-				@SuppressWarnings("unchecked")
-				List<TableInfo> tableList = (List<TableInfo>)msg.obj;
-				if (tableList.size() == 0) {
+				if (SysApplication.tableList.size() == 0) {
 					Toast.makeText(getActivity(), R.string.order_table_all_used, 
 							Toast.LENGTH_SHORT).show();
 					plusBtn.setOnClickListener(OrderFragment.this);
 				} else {
-					addNewOrder(tableList);
+					addNewOrder(SysApplication.tableList);
 				}
 			}
 		};
-	};
+	}; 
 	
-	/*****************************************************
-	 * 函数名：addNewOrder
-	 * 输     入：List<TableInfo> tableList -- 桌号信息列表
-	 * 输     出：无
-	 * 描     述：手动添加新订单
-	 * 创建人：高亚妮
-	 * 日     期：2014-6-20
-	 *****************************************************/
 	private void addNewOrder(final List<TableInfo> tableList) {
 		AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
 		List<String> tableNameList = new ArrayList<String>();
@@ -392,11 +376,12 @@ public class OrderFragment extends BaseFragment implements OnClickListener {
 	
 	@Override
 	public void onDetach() {
-		stopSyncOrder();
-		
-		if (updateTimer != null)
-			updateTimer.cancel();
-		
 		super.onDetach();
+	}
+	
+	@Override
+	public void onDestroy() {
+		stopSyncOrder();
+		super.onDestroy();
 	}
 }

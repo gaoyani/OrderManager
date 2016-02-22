@@ -1,2 +1,9 @@
 eclipse.preferences.version=1
+encoding//src/com/huiwei/ordermanager/activity/ConfirmOrderDetailActivity.java=GBK
 encoding//src/com/huiwei/ordermanager/activity/MainActivity.java=UTF-8
+encoding//src/com/huiwei/ordermanager/activity/MenuFragment.java=UTF-8
+encoding//src/com/huiwei/ordermanager/activity/OrderDetailActivity.java=GBK
+encoding//src/com/huiwei/ordermanager/activity/OrderFragment.java=UTF-8
+encoding//src/com/huiwei/ordermanager/adapter/OrderItemAdapter.java=UTF-8
+encoding//src/com/huiwei/ordermanager/common/SysApplication.java=UTF-8
+encoding//src/com/huiwei/ordermanager/task/SyncOrderTask.java=GBK

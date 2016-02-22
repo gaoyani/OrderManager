@@ -27,6 +27,7 @@
   	<string name="order_table_id">桌號：</string> 
   	<string name="order_status">狀態</string> 
   	<string name="order_notes">訂單備註：</string>
+  	<string name="people_number">人數：</string>
   	
   	<string name="take_out_order_contact_name">聯繫人&#160;&#160;&#160;&#160;：</string>
   	<string name="take_out_order_contact_number">聯繫電話：</string>
@@ -36,8 +37,10 @@
   	
   	<string name="fen">份菜</string> 
   	<string name="order_food">點餐</string> 
+  	<string name="add_order">(加餐訂單)</string>
   	<string name="accept">接單</string> 
   	<string name="confirm">處理</string> 
+  	<string name="print_accounts">打印預結單</string> 
   	<string name="success">成功</string> 
   	<string name="failed">失敗，請重試</string> 
   	<string name="order_completed">失敗，訂單已完成</string>
@@ -47,13 +50,16 @@
   	<string name="login_success">登錄成功</string> 
   	<string name="logout_success">註銷成功</string> 
   	<string name="connect_server_failed">連接服務器失敗！</string> 
-  	<string name="login_logined">該用戶名已在其他客戶端登錄！</string> 
+  	<string name="login_logined">該帳號已在其他客戶端登錄！</string> 
+  	<string name="login_mac_error">該帳號已於其他設備綁定！</string>
+  	<string name="login_user_disable">該帳號以禁用！</string>
   	<string name="login_failed">用戶名或密碼不正確！</string> 
   	<string name="logout_failed">註銷失敗，請檢查網絡！</string> 
   	<string name="user_name_empty">用戶名不能為空！</string> 
   	<string name="password_empty">密碼不能為空！</string> 
   	<string name="no_network">無法連接到網絡，請檢查網絡配置</string> 
   	<string name="login_exception_fail">登錄失敗，請重啟app后再試</string> 
+  	<string name="people_number_zero">請輸入用餐人數</string> 
   	
   	<string name="calling_accept">我知道了</string> 
   	
@@ -69,7 +75,7 @@
   	<string name="submit_failed">提交失敗，請重試</string> 
   	
   	<string name="order_tab_new">待處理</string> 
-  	<string name="order_tab_confirm">已確定訂單</string> 
+  	<string name="order_tab_confirm">已確定</string> 
   	<string name="order_accept">已接單</string> 
   	<string name="order_confirm">已處理</string> 
   	<string name="order_table_all_used">目前沒有空閒餐桌</string>

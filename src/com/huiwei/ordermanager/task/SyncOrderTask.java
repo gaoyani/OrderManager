@@ -9,6 +9,7 @@
 
 package com.huiwei.ordermanager.task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -74,6 +75,8 @@ public class SyncOrderTask extends AsyncTask<String, Void, Integer> {
 			HttpPost request = new HttpPost(url);
 			JSONObject param = new JSONObject();
 			param.put("user_id", Preferences.GetString(context, "user_id"));
+			param.put("mac", CommonFunction.getLocalMacAddress(context));
+			
 			JSONObject ep = new JSONObject();
 			ep.put("ver", "1.0");
 			String serial = MD5.getRandomString(32);
@@ -86,13 +89,13 @@ public class SyncOrderTask extends AsyncTask<String, Void, Integer> {
 			String sessionID = Preferences.GetString(context, "session_id");
 			request.addHeader("Cookie",
 					sessionID.substring(0, (sessionID.indexOf(";"))));
-			HttpResponse httpResponse = new DefaultHttpClient()
-					.execute(request);
+			HttpResponse httpResponse = (new TaskHttpClient()).client.execute(request);
 			String retSrc = EntityUtils.toString(httpResponse.getEntity());
 			JSONObject result = new JSONObject(retSrc);
 
 			int oldNewNum = SysApplication.getNewOrderNum();
 			SysApplication.clearOrderList();
+			String curTableID = "";
 			if (result.getString("params").length() != 0) {
 				JSONObject jsonPhone = result.getJSONObject("params");
 				JSONArray jsonarray = jsonPhone.getJSONArray("orders");
@@ -105,13 +108,23 @@ public class SyncOrderTask extends AsyncTask<String, Void, Integer> {
 					orderInfo.content = ls.getString("content");
 					orderInfo.tableId = ls.getString("table_id");
 					orderInfo.tableName = ls.getString("table_name");
+					orderInfo.peopleNum = ls.getInt("people_num");
 					orderInfo.type = ls.getInt("type");
 					orderInfo.status = ls.getInt("status");
 					orderInfo.isVip = (ls.getInt("is_vip") == 1);
 					orderInfo.isTakeOutOrder = (ls.getInt("waimai") == 1);
 					
 					if (orderInfo.type == OrderInfo.TYPE_ORDER && orderInfo.status == OrderInfo.CONFIRM) {
-						SysApplication.confirmOrderList.add(orderInfo);
+						if (curTableID.compareTo(orderInfo.tableId) != 0) {
+							List<OrderInfo> orderList = new ArrayList<OrderInfo>();
+							orderList.add(orderInfo);
+							SysApplication.confirmOrderList.put(orderInfo.tableId, orderList);
+							SysApplication.confirmTableIDList.add(orderInfo.tableId);
+							curTableID = orderInfo.tableId;
+						} else {
+							SysApplication.confirmOrderList.get(orderInfo.tableId).add(orderInfo);
+						}
+//						SysApplication.confirmOrderList.add(orderInfo);
 					} else {
 						SysApplication.newOrderList.add(orderInfo);
 					}

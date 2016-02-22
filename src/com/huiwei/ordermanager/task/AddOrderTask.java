@@ -45,6 +45,7 @@ public class AddOrderTask extends
 			param.put("order_text", SysApplication.curOrderInfo.notes);
 			param.put("is_vip", SysApplication.curOrderInfo.isVip ? 1 : 0);
 			param.put("is_add_order", SysApplication.curOrderInfo.isAddOrder);
+			param.put("people_num", SysApplication.curOrderInfo.peopleNum);
 			JSONObject ep = new JSONObject();
 			ep.put("ver", "1.0");
 			String serial = MD5.getRandomString(32);
@@ -78,8 +79,7 @@ public class AddOrderTask extends
 			String sessionID = Preferences.GetString(context, "session_id");
 			request.addHeader("Cookie",
 					sessionID.substring(0, (sessionID.indexOf(";"))));
-			HttpResponse httpResponse = new DefaultHttpClient()
-					.execute(request);
+			HttpResponse httpResponse = (new TaskHttpClient()).client.execute(request);
 			String retSrc = EntityUtils.toString(httpResponse.getEntity());
 			JSONObject resultJson = new JSONObject(retSrc);
 

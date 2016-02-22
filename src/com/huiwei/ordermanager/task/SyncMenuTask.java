@@ -1,10 +1,10 @@
 /*****************************************************
- * Copyright(c)2014-2015 ±±¾©»ãÎªÓÀÐË¿Æ¼¼ÓÐÏÞ¹«Ë¾
+ * Copyright(c)2014-2015 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ë¿Æ¼ï¿½ï¿½ï¿½ï¿½Þ¹ï¿½Ë¾
  * SyncMenuTask.java
- * ´´½¨ÈË£º¸ßÑÇÄÝ
- * ÈÕ     ÆÚ£º2014-6-24
- * Ãè     Êö£º²Ëµ¥Í¬²½Ïß³Ì
- * °æ     ±¾£ºv6.0
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-24
+ * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½Í¬ï¿½ï¿½ï¿½ß³ï¿½
+ * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½v6.0
  *****************************************************/
 
 package com.huiwei.ordermanager.task;
@@ -21,6 +21,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.huiwei.commonlib.MD5;
 import com.huiwei.commonlib.Preferences;
@@ -41,12 +42,12 @@ public class SyncMenuTask extends AsyncTask<String, Void, Integer> {
 	}
 
 	/*****************************************************
-	 * º¯ÊýÃû£ºdoInBackground
-	 * Êä     Èë£ºString... params -- ÊäÈë²ÎÊýÁÐ±í
-	 * Êä     ³ö£ºInteger -- Ö´ÐÐ½á¹û
-	 * Ãè     Êö£ºÏß³ÌÖ´ÐÐ¹ý³ÌÖÐµ÷ÓÃ£ºÓë·þÎñÆ÷½»»¥»ñÈ¡²Ëµ¥ÁÐ±í
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-24
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½doInBackground
+	 * ï¿½ï¿½     ï¿½ë£ºString... params -- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½Integer -- Ö´ï¿½Ð½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½Ö´ï¿½Ð¹ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½Ëµï¿½ï¿½Ð±ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-24
 	 *****************************************************/
 	@Override
 	protected Integer doInBackground(String... params) {
@@ -66,9 +67,9 @@ public class SyncMenuTask extends AsyncTask<String, Void, Integer> {
 			String sessionID = Preferences.GetString(context, "session_id");
 			request.addHeader("Cookie",
 					sessionID.substring(0, (sessionID.indexOf(";"))));
-			HttpResponse httpResponse = new DefaultHttpClient()
-					.execute(request);
+			HttpResponse httpResponse = (new TaskHttpClient()).client.execute(request);
 			String retSrc = EntityUtils.toString(httpResponse.getEntity());
+			Log.d("menuList", retSrc);
 			JSONObject result = new JSONObject(retSrc);
 
 			if (result.equals("") && result.length() == 0) {
@@ -123,12 +124,12 @@ public class SyncMenuTask extends AsyncTask<String, Void, Integer> {
 	}
 
 	/*****************************************************
-	 * º¯ÊýÃû£ºonPostExecute
-	 * Êä     Èë£ºInteger result -- Ö´ÐÐ½á¹û
-	 * Êä     ³ö£ºÎÞ
-	 * Ãè     Êö£ºÏß³ÌÖ´ÐÐÍê±Ïºóµ÷ÓÃ
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-24
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½onPostExecute
+	 * ï¿½ï¿½     ï¿½ë£ºInteger result -- Ö´ï¿½Ð½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½Ö´ï¿½ï¿½ï¿½ï¿½Ïºï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-24
 	 *****************************************************/
 	@Override
 	protected void onPostExecute(Integer result) {

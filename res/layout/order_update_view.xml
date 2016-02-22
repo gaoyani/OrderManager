@@ -59,12 +59,42 @@
     </LinearLayout>
     
     <LinearLayout
+        android:id="@+id/layout_people_num"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="2dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/people_number"
+            android:textColor="#ff000000"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_people_num"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="2dp"
+            android:gravity="top|left"
+            android:inputType="number"
+            android:scrollHorizontally="true"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
         android:orientation="vertical" >
 
         <TextView

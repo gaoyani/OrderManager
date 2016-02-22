@@ -1,10 +1,10 @@
 /*****************************************************
- * Copyright(c)2014-2015 ±±¾©»ãÎªÓÀÐË¿Æ¼¼ÓÐÏÞ¹«Ë¾
+ * Copyright(c)2014-2015 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ë¿Æ¼ï¿½ï¿½ï¿½ï¿½Þ¹ï¿½Ë¾
  * DishesDetailsTask.java
- * ´´½¨ÈË£º¸ßÑÇÄÝ
- * ÈÕ     ÆÚ£º2014-6-24
- * Ãè     Êö£º»ñÈ¡¶©µ¥ÏêÇéÏß³Ì
- * °æ     ±¾£ºv6.0
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-24
+ * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½
+ * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½v6.0
  *****************************************************/
 
 package com.huiwei.ordermanager.task;
@@ -26,6 +26,8 @@ import com.huiwei.commonlib.MD5;
 import com.huiwei.commonlib.Preferences;
 import com.huiwei.ordermanager.common.SysApplication;
 import com.huiwei.ordermanager.constant.CommonConstant;
+import com.huiwei.ordermanager.info.DishesInfo;
+import com.huiwei.ordermanager.info.OrderInfo;
 import com.huiwei.ordermanager.info.OrderedDishesInfo;
 import com.huiwei.ordermanager.info.PreferInfo;
 
@@ -34,24 +36,23 @@ public class DishesDetailsTask extends AsyncTask<String, Void, Integer> {
 	Handler handler = null;
 	Message message = null;
 	int flag = 0;
-	String id = null;
-	boolean isTakeOutOrder;
+//	String id = null;
+//	boolean isTakeOutOrder;
+	OrderInfo orderInfo;
 
-	public DishesDetailsTask(Context context, Handler handler, String id, boolean isTakeOutOrder) {
+//	public DishesDetailsTask(Context context, Handler handler, String id, boolean isTakeOutOrder) {
+//		this.context = context;
+//		this.handler = handler;
+//		this.id = id;
+//		this.isTakeOutOrder = isTakeOutOrder;
+//	}
+	
+	public DishesDetailsTask(Context context, Handler handler, OrderInfo orderInfo) {
 		this.context = context;
 		this.handler = handler;
-		this.id = id;
-		this.isTakeOutOrder = isTakeOutOrder;
+		this.orderInfo = orderInfo;
 	}
-
-	/*****************************************************
-	 * º¯ÊýÃû£ºdoInBackground
-	 * Êä     Èë£ºString... params -- ÊäÈë²ÎÊýÁÐ±í
-	 * Êä     ³ö£ºInteger -- Ö´ÐÐ½á¹û
-	 * Ãè     Êö£ºÏß³ÌÖ´ÐÐ¹ý³ÌÖÐµ÷ÓÃ£ºÓë·þÎñÆ÷½»»¥»ñÈ¡Ö¸¶¨¶©µ¥µÄÏêÇé
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-24
-	 *****************************************************/
+	
 	@Override
 	protected Integer doInBackground(String... params) {
 
@@ -60,8 +61,8 @@ public class DishesDetailsTask extends AsyncTask<String, Void, Integer> {
 
 			HttpPost request = new HttpPost(url);
 			JSONObject param = new JSONObject();
-			param.put("orderid", id);
-			param.put("waimai", isTakeOutOrder ? 1 : 0);
+			param.put("orderid", orderInfo.content);
+			param.put("waimai", orderInfo.isTakeOutOrder ? 1 : 0);
 			JSONObject ep = new JSONObject();
 			ep.put("ver", "1.0");
 			String serial = MD5.getRandomString(32);
@@ -74,15 +75,15 @@ public class DishesDetailsTask extends AsyncTask<String, Void, Integer> {
 			String sessionID = Preferences.GetString(context, "session_id");
 			request.addHeader("Cookie",
 					sessionID.substring(0, (sessionID.indexOf(";"))));
-			HttpResponse httpResponse = new DefaultHttpClient()
-					.execute(request);
+			HttpResponse httpResponse = (new TaskHttpClient()).client.execute(request);
 			String retSrc = EntityUtils.toString(httpResponse.getEntity());
 			JSONObject result = new JSONObject(retSrc);
 
 			if (result.equals("") && result.length() == 0) {
 				flag = CommonConstant.CONNECT_SERVER_FAIL;
 			} else {
-				SysApplication.curOrderInfo.clearDishesList();
+//				SysApplication.curOrderInfo.clearDishesList();
+				orderInfo.clearDishesList();
 				String ver = result.getString("ver");
 				JSONObject jsonPhone = result.getJSONObject("params");
 				if (!"null".equals(jsonPhone.toString())
@@ -98,37 +99,53 @@ public class DishesDetailsTask extends AsyncTask<String, Void, Integer> {
 						dishesInfo.dishes.islimit = ls.getString("islimit");
 						dishesInfo.dishes.id = ls.getString("menuid");
 						dishesInfo.dishes.isSoldOut = ls.getInt("soldout") == 1;
-						dishesInfo.dishes.preferHistory = ls.getString("preference");
+						dishesInfo.dishes.preferHistory =
+								
+								ls.getString("preference");
 						dishesInfo.dishes.otherPrefer = ls.getString("other_prefer");
 						if (dishesInfo.dishes.id.equals("0"))
 							dishesInfo.isInput = true;
-		
-						for (PreferInfo preferInfo : SysApplication.dishesList.get(dishesInfo.dishes.id).preferList) {
-							PreferInfo info = new PreferInfo();
-							info.id = preferInfo.id;
-							info.name = SysApplication.preferList.get(preferInfo.id).name;
-							dishesInfo.dishes.preferList.add(info);
-						}
 						
+						DishesInfo findDishesInfo = SysApplication.dishesList.get(dishesInfo.dishes.id);
+						if (findDishesInfo != null) {
+							for (PreferInfo preferInfo : findDishesInfo.preferList) {
+								PreferInfo info = new PreferInfo();
+								info.id = preferInfo.id;
+								info.name = SysApplication.preferList.get(preferInfo.id).name;
+								dishesInfo.dishes.preferList.add(info);
+							}
+						}
+		
 						JSONArray jsonPrefers = ls.getJSONArray("phids");
 						for (int j=0; j<jsonPrefers.length(); j++) {
 							int preferId = jsonPrefers.getInt(j);
 							dishesInfo.dishes.setPreferCheck(preferId);
 						}
 						
-						SysApplication.curOrderInfo.dishesInfo.add(dishesInfo);
+//						SysApplication.curOrderInfo.dishesInfo.add(dishesInfo);
+						orderInfo.dishesInfo.add(dishesInfo);
 					}
 					
-					SysApplication.curOrderInfo.content = jsonPhone.getString("orderid");
-					SysApplication.curOrderInfo.tableId = jsonPhone.getString("tableid");	
-					SysApplication.curOrderInfo.notes = jsonPhone.getString("order_text");
+//					SysApplication.curOrderInfo.content = jsonPhone.getString("orderid");
+//					SysApplication.curOrderInfo.tableId = jsonPhone.getString("tableid");	
+//					SysApplication.curOrderInfo.notes = jsonPhone.getString("order_text");
 					
-					if (isTakeOutOrder) {
-						SysApplication.curOrderInfo.contactName = jsonPhone.getString("customer");
-						SysApplication.curOrderInfo.contactNumber = jsonPhone.getString("tel");
-						SysApplication.curOrderInfo.contactAddress = jsonPhone.getString("addr");
-						SysApplication.curOrderInfo.sendType = jsonPhone.getString("mode");
-						SysApplication.curOrderInfo.sendTime = jsonPhone.getString("sendtime");
+					orderInfo.content = jsonPhone.getString("orderid");
+					orderInfo.tableId = jsonPhone.getString("tableid");	
+					orderInfo.notes = jsonPhone.getString("order_text");
+					
+					if (orderInfo.isTakeOutOrder) {
+//						SysApplication.curOrderInfo.contactName = jsonPhone.getString("customer");
+//						SysApplication.curOrderInfo.contactNumber = jsonPhone.getString("tel");
+//						SysApplication.curOrderInfo.contactAddress = jsonPhone.getString("addr");
+//						SysApplication.curOrderInfo.sendType = jsonPhone.getString("mode");
+//						SysApplication.curOrderInfo.sendTime = jsonPhone.getString("sendtime");
+						
+						orderInfo.contactName = jsonPhone.getString("customer");
+						orderInfo.contactNumber = jsonPhone.getString("tel");
+						orderInfo.contactAddress = jsonPhone.getString("addr");
+						orderInfo.sendType = jsonPhone.getString("mode");
+						orderInfo.sendTime = jsonPhone.getString("sendtime");
 					}
 
 					flag = CommonConstant.SUCCESS;
@@ -149,12 +166,12 @@ public class DishesDetailsTask extends AsyncTask<String, Void, Integer> {
 	}
 
 	/*****************************************************
-	 * º¯ÊýÃû£ºonPostExecute
-	 * Êä     Èë£ºInteger result -- Ö´ÐÐ½á¹û
-	 * Êä     ³ö£ºÎÞ
-	 * Ãè     Êö£ºÏß³ÌÖ´ÐÐÍê±Ïºóµ÷ÓÃ
-	 * ´´½¨ÈË£º¸ßÑÇÄÝ
-	 * ÈÕ     ÆÚ£º2014-6-24
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½onPostExecute
+	 * ï¿½ï¿½     ï¿½ë£ºInteger result -- Ö´ï¿½Ð½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½Ö´ï¿½ï¿½ï¿½ï¿½Ïºï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½     ï¿½Ú£ï¿½2014-6-24
 	 *****************************************************/
 	@Override
 	protected void onPostExecute(Integer result) {
@@ -162,7 +179,7 @@ public class DishesDetailsTask extends AsyncTask<String, Void, Integer> {
 		super.onPostExecute(result);
 		message = new Message();
 		message.what = result;
-		message.obj = SysApplication.curOrderInfo;
+		message.obj = orderInfo;
 		handler.sendMessage(message);
 	}
 }

@@ -8,6 +8,9 @@
  *****************************************************/
 package com.huiwei.ordermanager.activity;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +43,7 @@ import com.huiwei.ordermanager.common.SysApplication;
 import com.huiwei.ordermanager.constant.CommonConstant;
 import com.huiwei.ordermanager.constant.UrlConstant;
 import com.huiwei.ordermanager.task.CategoryTask;
+import com.huiwei.ordermanager.task.GetTableListTask;
 import com.huiwei.ordermanager.task.LogoutTask;
 import com.huiwei.ordermanager.task.SyncMenuTask;
 
@@ -48,6 +52,11 @@ public class MainActivity extends BaseActivity {
     private final static int ANIMATION_DURATION_FAST = 350;
     private final static int ANIMATION_DURATION_SLOW = 250;
     private final static int MOVE_DISTANCE = 10;
+    
+    public static ExecutorService FULL_TASK_EXECUTOR;
+    static { 
+        FULL_TASK_EXECUTOR = (ExecutorService) Executors.newCachedThreadPool();  
+    };  
 
 	private boolean slided = false;
 	private int screenWidth;
@@ -97,10 +106,16 @@ public class MainActivity extends BaseActivity {
 	
 	private void syncMenu() {
 		CategoryTask ct = new CategoryTask(this, null);
-		ct.execute(UrlConstant.getServerUrl(this));
+		ct.executeOnExecutor(FULL_TASK_EXECUTOR, UrlConstant.getServerUrl(this)); 
+//		ct.execute(UrlConstant.getServerUrl(this));
 		
 		SyncMenuTask smt = new SyncMenuTask(this, null);
-		smt.execute(UrlConstant.getServerUrl(this));;
+		smt.executeOnExecutor(FULL_TASK_EXECUTOR, UrlConstant.getServerUrl(this)); 
+//		smt.execute(UrlConstant.getServerUrl(this));
+		
+		GetTableListTask task = new GetTableListTask(this, null, "");
+		task.executeOnExecutor(FULL_TASK_EXECUTOR, UrlConstant.getServerUrl(this)); 
+//		task.execute(UrlConstant.getServerUrl(this));
 	}
 	
 	@Override

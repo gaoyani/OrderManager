@@ -19,6 +19,7 @@ public class OrderInfo {
 	public String tableName;
 	public String content = "";
 	public String notes = "";
+	public int peopleNum;
 	public int status;
 	public int type;
 	public boolean isVip;

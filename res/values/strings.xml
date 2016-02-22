@@ -29,6 +29,7 @@
   	<string name="order_table_id">桌号：</string> 
   	<string name="order_status">状态</string> 
   	<string name="order_notes">订单备注：</string>
+  	<string name="people_number">人数：</string>
   	
   	<string name="take_out_order_contact_name">联系人&#160;&#160;&#160;&#160;：</string>
   	<string name="take_out_order_contact_number">联系电话：</string>
@@ -38,8 +39,10 @@
   	
   	<string name="fen">份菜</string> 
   	<string name="order_food">点餐</string> 
+  	<string name="add_order">(加餐订单)</string>
   	<string name="accept">接单</string> 
   	<string name="confirm">处理</string> 
+  	<string name="print_accounts">打印预结单</string> 
   	<string name="success">成功</string> 
   	<string name="failed">失败，请重试</string> 
   	<string name="order_completed">失败，订单已完成</string>
@@ -49,13 +52,16 @@
   	<string name="login_success">登录成功</string> 
   	<string name="logout_success">注销成功</string> 
   	<string name="connect_server_failed">连接服务器失败！</string> 
-  	<string name="login_logined">该用户名已在其他客户端登录！</string> 
+  	<string name="login_logined">该账号已在其他客户端登录！</string> 
+  	<string name="login_mac_error">该账号已与其他设备绑定！</string>
+  	<string name="login_user_disable">该账号已禁用！</string>
   	<string name="login_failed">用户名或密码不正确！</string> 
   	<string name="logout_failed">注销失败，请检查网络！</string> 
   	<string name="user_name_empty">用户名不能为空！</string> 
   	<string name="password_empty">密码不能为空！</string> 
   	<string name="no_network">无法连接到网络，请检查网络配置</string> 
   	<string name="login_exception_fail">登陆失败，请确认已连接点餐wifi或重启app后再试</string> 
+  	<string name="people_number_zero">请输入用餐人数</string> 
   	
   	<string name="calling_accept">我知道了</string> 
   	
@@ -71,7 +77,7 @@
   	<string name="submit_failed">提交失败，请重试</string> 
   	
   	<string name="order_tab_new">待处理</string> 
-  	<string name="order_tab_confirm">已确定订单</string> 
+  	<string name="order_tab_confirm">已确定</string> 
   	<string name="order_accept">已接单</string> 
   	<string name="order_confirm">已处理</string> 
   	<string name="order_table_all_used">目前没有空闲餐桌</string> 

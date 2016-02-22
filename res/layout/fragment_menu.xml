@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="#ffffffff" 
+            android:background="#ffffffff"
             android:visibility="gone" >
 
             <EditText
@@ -155,9 +155,9 @@
     
     <include
         android:id="@+id/loading_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        layout="@layout/loading_progress_view"/>
+        layout="@layout/loading_progress_view" />
 
 </RelativeLayout>
