@@ -1,0 +1,15 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants" >
+
+    <com.huiwei.ordermanager.baseclass.SubListView
+         android:id="@+id/lv_order_detail"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:cacheColorHint="#00000000"
+         android:divider="@null" >
+	</com.huiwei.ordermanager.baseclass.SubListView>
+    
+
+</RelativeLayout>
